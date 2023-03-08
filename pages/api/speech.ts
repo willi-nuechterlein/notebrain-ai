@@ -34,7 +34,6 @@ export default async function handler(
       temperature: 0.3,
       max_tokens: 3500
     })
-    console.log('👉 ~ completion:', completion)
     console.log(completion.data.choices[0].text)
     res.status(200).json(completion.data.choices[0].text || '')
   } catch (error: Error | any) {

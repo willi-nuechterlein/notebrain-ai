@@ -139,16 +139,30 @@ export default function useRecorder() {
             //     speaker: SpeakerType.USER
             //   })
             // })
-            const dbEntry = await res.json()
-            console.log('👉 ~ dbEntry:', dbEntry)
-            // if (!dbEntry.ok) throw new Error('Talk Error')
-            const newDialogPart = JSON.parse(dbEntry)
-            console.log('👉 ~ newDialogPart:', newDialogPart)
+            // if (!res.ok) throw new Error('Talk Error')
+            const newDialogPart = JSON.parse(await res.json())
             addDialog({
               speaker: newDialogPart.speaker[0],
               text: newDialogPart.text
             })
-            console.log('👉 ~ newDialogPart.speaker:', newDialogPart.speaker)
+
+            if (newDialogPart.is_question) {
+              const answer = await fetch(` /api/ask?user=${user.id}`, {
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                  question: newDialogPart.text,
+                  embedding: newDialogPart.embedding
+                })
+              })
+              const answerJson = JSON.parse(await answer.json())
+              addDialog({
+                speaker: SpeakerType.AI,
+                text: answerJson.text
+              })
+            }
           }
         } catch (error) {
           toast.error('Something went wrong')

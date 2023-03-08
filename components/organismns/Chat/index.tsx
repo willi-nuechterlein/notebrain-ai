@@ -49,9 +49,13 @@ export const Chat: React.FC<ChatProps> = ({ messages }) => {
       {messages.map((message, index) => (
         <ChatMessageContainer
           key={index}
-          style={{
+          css={{
             alignSelf:
-              message.speaker === SpeakerType.AI ? 'flex-start' : 'flex-end'
+              message.speaker === SpeakerType.AI ? 'flex-start' : 'flex-end',
+            color:
+              message.speaker === SpeakerType.AI ? '$primary12' : '$secondary9',
+            backgroundColor:
+              message.speaker === SpeakerType.AI ? '$primary4' : '$gray1'
           }}
         >
           <ChatMessageText>{message.text}</ChatMessageText>
