@@ -17,7 +17,7 @@ export default async function handler(
   if (!userId) {
     res.status(401).json('Unauthorized')
   }
-  const { user, speaker } = req.query
+  const { speaker } = req.query
   const { text } = req.body
   const openai = new OpenAIApi(configuration)
 
@@ -70,7 +70,6 @@ export default async function handler(
     const json = await response.json()
     const isQuestion = json.choices[0].message?.content?.includes('true')
 
-    const userId = Number(user)
     if (!userId || !speaker || !text) {
       res.status(400).json('Missing data')
     }
