@@ -12,10 +12,10 @@ export default async function handler(
     res.status(401).json('Unauthorized')
   }
   try {
-    const { speaker, text, user } = req.body
-    if (!text || !speaker || !user) res.status(400).json('Missing data')
+    const { speaker, text } = req.body
+    if (!text || !speaker) res.status(400).json('Missing data')
     const record = await xata.db.dialogues.create({
-      user_id: user,
+      user_id: userId,
       speaker: [speaker],
       text,
       created_at: new Date()

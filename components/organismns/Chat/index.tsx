@@ -46,9 +46,9 @@ const ChatMessageText = styled('div', {})
 export const Chat: React.FC<ChatProps> = ({ messages }) => {
   return (
     <ChatContainer>
-      {messages.map((message, index) => (
+      {messages.map((message) => (
         <ChatMessageContainer
-          key={index}
+          key={message.text.substring(0, 20)}
           css={{
             alignSelf:
               message.speaker === SpeakerType.AI ? 'flex-start' : 'flex-end',

@@ -122,7 +122,7 @@ export default function useRecorder() {
             text
           })
           if (user?.id && text) {
-            const res = await fetch(` /api/talk?user=${user.id}&speaker=user`, {
+            const res = await fetch(` /api/talk?speaker=user`, {
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -147,7 +147,7 @@ export default function useRecorder() {
             const newDialogPart = JSON.parse(await res.json())
 
             if (newDialogPart.is_question) {
-              const answer = await fetch(` /api/ask?user=${user.id}`, {
+              const answer = await fetch(` /api/ask`, {
                 headers: {
                   'Content-Type': 'application/json'
                 },
@@ -170,8 +170,8 @@ export default function useRecorder() {
         setRecorderState((prevState: Recorder) => {
           if (prevState.mediaRecorder)
             return {
-              ...initialState,
-              audio: window.URL.createObjectURL(blob)
+              ...initialState
+              //   audio: window.URL.createObjectURL(blob)
             }
           else return initialState
         })

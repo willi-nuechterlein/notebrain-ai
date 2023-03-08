@@ -10,7 +10,7 @@ const tables = [
   {
     name: 'dialogues',
     columns: [
-      { name: 'user_id', type: 'int' },
+      { name: 'user_id', type: 'string' },
       { name: 'speaker', type: 'multiple' },
       { name: 'text', type: 'string' },
       { name: 'created_at', type: 'datetime' },

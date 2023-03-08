@@ -12,10 +12,8 @@ export default async function handler(
     res.status(401).json('Unauthorized')
   }
   try {
-    const { user } = req.query
-    if (!user) res.status(400).json('Missing data')
     const records = await xata.db.dialogues
-      .filter({ user_id: Number(user) })
+      .filter({ user_id: userId })
       .sort('created_at', 'asc')
       .getMany()
     res.status(200).json(JSON.stringify(records))

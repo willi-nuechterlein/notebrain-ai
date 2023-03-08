@@ -12,14 +12,13 @@ export default async function handler(
   if (!userId) {
     res.status(401).json('Unauthorized')
   }
-  const { user } = req.query
   const { question, embedding: questionEmbedding } = req.body
 
   try {
     const answerRecord = await xata.db.dialogues.vectorSearch(
       'embedding',
       questionEmbedding,
-      { filter: { user_id: Number(user), is_question: false } }
+      { filter: { user_id: userId, is_question: false } }
     )
     const { embedding, text, ...restRecord } = answerRecord[0]
 
