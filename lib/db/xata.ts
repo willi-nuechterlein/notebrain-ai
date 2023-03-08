@@ -14,7 +14,14 @@ const tables = [
       { name: 'speaker', type: 'multiple' },
       { name: 'text', type: 'string' },
       { name: 'created_at', type: 'datetime' },
-      { name: 'is_question', type: 'bool' }
+      { name: 'is_question', type: 'bool' },
+      {
+        name: 'embedding',
+        type: 'vector',
+        vector: {
+          dimension: 1536
+        }
+      }
     ]
   }
 ] as const
@@ -33,7 +40,7 @@ const DatabaseClient = buildClient()
 
 const defaultOptions = {
   databaseURL:
-    'https://Willi-N-chterlein-s-workspace-e2nnp6.eu-west-1.xata.sh/db/db1',
+    'https://Willi-N-chterlein-s-workspace-e2nnp6.eu-west-1.xata.sh/db/db1'
 }
 
 export class XataClient extends DatabaseClient<DatabaseSchema> {
