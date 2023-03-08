@@ -117,6 +117,10 @@ export default function useRecorder() {
           )
           const json = await response.json()
           const { text } = json
+          addDialog({
+            speaker: SpeakerType.USER,
+            text
+          })
           if (user?.id && text) {
             const res = await fetch(` /api/talk?user=${user.id}&speaker=user`, {
               headers: {
@@ -141,10 +145,6 @@ export default function useRecorder() {
             // })
             // if (!res.ok) throw new Error('Talk Error')
             const newDialogPart = JSON.parse(await res.json())
-            addDialog({
-              speaker: newDialogPart.speaker[0],
-              text: newDialogPart.text
-            })
 
             if (newDialogPart.is_question) {
               const answer = await fetch(` /api/ask?user=${user.id}`, {
@@ -160,7 +160,7 @@ export default function useRecorder() {
               const answerJson = JSON.parse(await answer.json())
               addDialog({
                 speaker: SpeakerType.AI,
-                text: answerJson.text
+                text: answerJson.answer
               })
             }
           }
