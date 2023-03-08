@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getXataClient } from 'lib/db/xata'
 import { Configuration, OpenAIApi } from 'openai'
+import { getAuth } from '@clerk/nextjs/server'
+import { getXataClient } from 'lib/db/xata'
 
 const configuration = new Configuration({
   apiKey: process.env.OPEN_AI_KEY || ''
@@ -12,6 +13,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string | Error>
 ) {
+  const { userId } = getAuth(req)
+  if (!userId) {
+    res.status(401).json('Unauthorized')
+  }
   const { user, speaker } = req.query
   const { text } = req.body
   const openai = new OpenAIApi(configuration)

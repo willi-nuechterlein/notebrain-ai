@@ -1,4 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { getAuth } from '@clerk/nextjs/server'
+
 import { getXataClient } from 'lib/db/xata'
 
 const xata = getXataClient()
@@ -6,6 +8,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string | Error>
 ) {
+  const { userId } = getAuth(req)
+  if (!userId) {
+    res.status(401).json('Unauthorized')
+  }
   const { user } = req.query
   const { question, embedding: questionEmbedding } = req.body
 

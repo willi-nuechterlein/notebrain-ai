@@ -34,10 +34,10 @@ export default function RecorderControls({
     <Box
       css={{
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         width: '100%',
-        height: '10rem',
         backgroundColor: '$white',
         borderRadius: '$smallRadius',
         boxShadow: '$tileShadow',
@@ -46,9 +46,19 @@ export default function RecorderControls({
         paddingY: '$5'
       }}
     >
-      <Box>
+      <Box
+        css={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
         {isListening ? (
           <Button
+            css={{
+              width: '18rem'
+            }}
             disabled={recordingSeconds === 0}
             onClick={() => {
               setIsListening(false)
@@ -72,6 +82,9 @@ export default function RecorderControls({
           </Button>
         ) : (
           <Button
+            css={{
+              width: '25rem'
+            }}
             onClick={() => {
               setIsListening(true)
               startRecording()
@@ -84,7 +97,8 @@ export default function RecorderControls({
           <Button
             outlined
             css={{
-              marginLeft: '10px'
+              marginLeft: '1rem',
+              width: '6rem'
             }}
             onClick={() => {
               setIsListening(false)
@@ -103,7 +117,8 @@ export default function RecorderControls({
         color="secondary"
         size="small"
         css={{
-          alignSelf: 'flex-end'
+          alignSelf: 'center',
+          marginTop: '$12'
         }}
       >
         Clear Conversation

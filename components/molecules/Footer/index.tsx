@@ -10,7 +10,7 @@ const Footer = () => (
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: '50vh'
+      marginTop: '10vh'
     }}
   >
     <Paragraph>Made with ❤️ in Berlin</Paragraph>

@@ -4,6 +4,7 @@ import { globalCss } from 'stitches.config'
 import { Inter } from '@next/font/google'
 import { Toaster } from 'react-hot-toast'
 import { SWRConfig } from 'swr'
+import { ClerkProvider } from '@clerk/nextjs'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,26 +34,28 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${inter.style.fontFamily};
         }
       `}</style>
-      <SWRConfig
-        value={{
-          fetcher: (resource, init) =>
-            fetch(resource, init).then((res) => res.json())
-        }}
-      >
-        <JotaiProvider>
-          <Toaster
-            toastOptions={{
-              success: {
-                iconTheme: {
-                  primary: '#30a46c',
-                  secondary: '#f2fcf6'
+      <ClerkProvider {...pageProps}>
+        <SWRConfig
+          value={{
+            fetcher: (resource, init) =>
+              fetch(resource, init).then((res) => res.json())
+          }}
+        >
+          <JotaiProvider>
+            <Toaster
+              toastOptions={{
+                success: {
+                  iconTheme: {
+                    primary: '#30a46c',
+                    secondary: '#f2fcf6'
+                  }
                 }
-              }
-            }}
-          />
-          <Component {...pageProps} />
-        </JotaiProvider>
-      </SWRConfig>
+              }}
+            />
+            <Component {...pageProps} />
+          </JotaiProvider>
+        </SWRConfig>
+      </ClerkProvider>
     </>
   )
 }

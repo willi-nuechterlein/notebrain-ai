@@ -44,7 +44,7 @@ export default function Home() {
       {/* <Nav /> */}
       <Box
         css={{
-          marginTop: '10vh',
+          // marginTop: '10vh',
           height: '100vh',
           width: '100%',
           maxWidth: '50rem',
