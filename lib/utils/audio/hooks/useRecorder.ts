@@ -11,7 +11,7 @@ import {
 } from 'lib/types/recorder'
 import { toast } from 'react-hot-toast'
 import { useAtom } from 'jotai'
-import { getSetDialogAtom, SpeakerType } from 'lib/jotai/text'
+import { addDialogPartAtom, SpeakerType } from 'lib/jotai/text'
 import { userAtom } from 'lib/jotai/user'
 
 const initialState: Recorder = {
@@ -25,7 +25,7 @@ const initialState: Recorder = {
 
 export default function useRecorder() {
   const [recorderState, setRecorderState] = useState<Recorder>(initialState)
-  const [, setDialog] = useAtom(getSetDialogAtom)
+  const [, addDialog] = useAtom(addDialogPartAtom)
   const [user] = useAtom(userAtom)
   useEffect(() => {
     const MAX_RECORDER_TIME = 5
@@ -131,10 +131,11 @@ export default function useRecorder() {
           if (!dbRecord.ok) throw new Error('DB error')
           const dbJson = await dbRecord.json()
           const newDialogPart = JSON.parse(dbJson)
-          setDialog({
-            speaker: newDialogPart.speaker,
+          addDialog({
+            speaker: newDialogPart.speaker[0],
             text: newDialogPart.text
           })
+          console.log('👉 ~ newDialogPart.speaker:', newDialogPart.speaker)
         } catch (error) {
           toast.error('Something went wrong')
         }
@@ -155,7 +156,7 @@ export default function useRecorder() {
           .getAudioTracks()
           .forEach((track: AudioTrack) => track.stop())
     }
-  }, [recorderState.mediaRecorder, setDialog, user?.id])
+  }, [recorderState.mediaRecorder, addDialog, user?.id])
 
   return {
     recorderState,

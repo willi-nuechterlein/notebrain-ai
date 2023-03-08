@@ -14,7 +14,14 @@ export const dialogAtom = atom<Array<DialogPart>>([])
 
 export const getSetDialogAtom = atom(
   (get) => get(dialogAtom),
+  (_get, set, dialog: Array<DialogPart>) => {
+    set(dialogAtom, dialog)
+  }
+)
+
+export const addDialogPartAtom = atom(
+  null,
   (get, set, dialogPart: DialogPart) => {
-    set(dialogAtom, [...get(dialogAtom), dialogPart])
+    set(dialogAtom, (prevDialog) => [...prevDialog, dialogPart])
   }
 )

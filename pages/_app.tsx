@@ -3,6 +3,7 @@ import { Provider as JotaiProvider } from 'jotai'
 import { globalCss } from 'stitches.config'
 import { Inter } from '@next/font/google'
 import { Toaster } from 'react-hot-toast'
+import { SWRConfig } from 'swr'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,19 +33,26 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${inter.style.fontFamily};
         }
       `}</style>
-      <JotaiProvider>
-        <Toaster
-          toastOptions={{
-            success: {
-              iconTheme: {
-                primary: '#30a46c',
-                secondary: '#f2fcf6'
+      <SWRConfig
+        value={{
+          fetcher: (resource, init) =>
+            fetch(resource, init).then((res) => res.json())
+        }}
+      >
+        <JotaiProvider>
+          <Toaster
+            toastOptions={{
+              success: {
+                iconTheme: {
+                  primary: '#30a46c',
+                  secondary: '#f2fcf6'
+                }
               }
-            }
-          }}
-        />
-        <Component {...pageProps} />
-      </JotaiProvider>
+            }}
+          />
+          <Component {...pageProps} />
+        </JotaiProvider>
+      </SWRConfig>
     </>
   )
 }
