@@ -19,6 +19,7 @@ specifiers:
   '@types/react-dom': 18.0.9
   '@typescript-eslint/eslint-plugin': ^5.53.0
   '@typescript-eslint/parser': ^5.53.0
+  '@xata.io/client': ^0.23.0
   csstype: ^3.1.1
   eslint: 8.27.0
   eslint-config-airbnb: ^19.0.4
@@ -65,6 +66,7 @@ dependencies:
   '@types/react-dom': 18.0.9
   '@typescript-eslint/eslint-plugin': 5.53.0_7niuwtn5vfnpmdwiwc45gnnj7q
   '@typescript-eslint/parser': 5.53.0_e3uo4sehh4zr4i6m57mkkxxv7y
+  '@xata.io/client': 0.23.0_typescript@4.9.3
   csstype: 3.1.1
   eslint: 8.27.0
   eslint-config-airbnb: 19.0.4_boibunhbxvegodxglkabsm53km
@@ -1484,6 +1486,14 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.53.0
       eslint-visitor-keys: 3.3.0
+    dev: false
+
+  /@xata.io/client/0.23.0_typescript@4.9.3:
+    resolution: {integrity: sha512-+2UlIehvUxvStkROdzBqfsDmTOnbu6RLxaRCPRvD95vl6r9BvS6enDGMr6Vatb5zeedLTPU8mahMklAaC/Q2wg==}
+    peerDependencies:
+      typescript: '>=4.5'
+    dependencies:
+      typescript: 4.9.3
     dev: false
 
   /acorn-jsx/5.3.2_acorn@8.8.1:
