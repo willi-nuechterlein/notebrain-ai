@@ -32,7 +32,7 @@ const DatabaseClient = buildClient()
 
 const defaultOptions = {
   databaseURL:
-    'https://Willi-N-chterlein-s-workspace-e2nnp6.eu-west-1.xata.sh/db/db1'
+    'https://Willi-N-chterlein-s-workspace-e2nnp6.eu-west-1.xata.sh/db/db1',
 }
 
 export class XataClient extends DatabaseClient<DatabaseSchema> {
