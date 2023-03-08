@@ -33,7 +33,7 @@ const ChatContainer = styled('div', {
 
 const ChatMessageContainer = styled('div', {
   padding: '$4',
-  borderRadius: '$mediumRadius',
+  borderRadius: '$smallRadius',
   fontSize: '$5',
   maxWidth: '70%',
   animation: `${slideIn} 0.5s ease`,

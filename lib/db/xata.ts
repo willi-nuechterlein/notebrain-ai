@@ -13,7 +13,8 @@ const tables = [
       { name: 'user_id', type: 'int' },
       { name: 'speaker', type: 'multiple' },
       { name: 'text', type: 'string' },
-      { name: 'created_at', type: 'datetime' }
+      { name: 'created_at', type: 'datetime' },
+      { name: 'is_question', type: 'bool' }
     ]
   }
 ] as const

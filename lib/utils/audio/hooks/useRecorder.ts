@@ -117,25 +117,39 @@ export default function useRecorder() {
           )
           const json = await response.json()
           const { text } = json
-          const dbRecord = await fetch('/api/insert-dialog', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              text,
-              user: user?.id,
-              speaker: SpeakerType.USER
+          if (user?.id && text) {
+            const res = await fetch(` /api/talk?user=${user.id}&speaker=user`, {
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              method: 'POST',
+              body: JSON.stringify({
+                text
+              })
             })
-          })
-          if (!dbRecord.ok) throw new Error('DB error')
-          const dbJson = await dbRecord.json()
-          const newDialogPart = JSON.parse(dbJson)
-          addDialog({
-            speaker: newDialogPart.speaker[0],
-            text: newDialogPart.text
-          })
-          console.log('👉 ~ newDialogPart.speaker:', newDialogPart.speaker)
+            // console.log('👉 ~ response:', response)
+            // const dbRecord = await fetch('/api/insert-dialog', {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json'
+            //   },
+            //   body: JSON.stringify({
+            //     text,
+            //     user: user?.id,
+            //     speaker: SpeakerType.USER
+            //   })
+            // })
+            const dbEntry = await res.json()
+            console.log('👉 ~ dbEntry:', dbEntry)
+            // if (!dbEntry.ok) throw new Error('Talk Error')
+            const newDialogPart = JSON.parse(dbEntry)
+            console.log('👉 ~ newDialogPart:', newDialogPart)
+            addDialog({
+              speaker: newDialogPart.speaker[0],
+              text: newDialogPart.text
+            })
+            console.log('👉 ~ newDialogPart.speaker:', newDialogPart.speaker)
+          }
         } catch (error) {
           toast.error('Something went wrong')
         }

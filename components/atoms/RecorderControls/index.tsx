@@ -42,7 +42,8 @@ export default function RecorderControls({
         borderRadius: '$smallRadius',
         boxShadow: '$tileShadow',
         marginTop: '$5',
-        padding: '$3'
+        paddingX: '$7',
+        paddingY: '$5'
       }}
     >
       <Box>
@@ -67,7 +68,7 @@ export default function RecorderControls({
                 marginRight: '10px'
               }}
             />
-            Submit
+            Send
           </Button>
         ) : (
           <Button
@@ -76,7 +77,7 @@ export default function RecorderControls({
               startRecording()
             }}
           >
-            Record
+            Talk
           </Button>
         )}
         {isListening && (
@@ -105,7 +106,7 @@ export default function RecorderControls({
           alignSelf: 'flex-end'
         }}
       >
-        clear conversation
+        Clear Conversation
       </Button>
     </Box>
   )
