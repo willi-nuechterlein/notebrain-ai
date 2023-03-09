@@ -50,8 +50,8 @@ export default function Home() {
           alignItems: 'center'
         }}
       >
-        <Chat messages={dialog} />
         <RecorderControls recorderState={recorderState} handlers={handlers} />
+        <Chat messages={dialog} />
       </Box>
       <Footer />
     </Box>

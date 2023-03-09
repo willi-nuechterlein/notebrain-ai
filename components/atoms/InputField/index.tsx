@@ -9,7 +9,9 @@ export const InputField = ({
   helperText,
   textarea,
   placeholder,
-  type
+  type,
+  css,
+  cssInput
 }: {
   formik: any
   id: string
@@ -18,12 +20,15 @@ export const InputField = ({
   textarea?: boolean
   placeholder?: string
   type?: string
+  css?: any
+  cssInput?: any
 }) => {
   return (
-    <Fieldset>
+    <Fieldset css={css}>
       {label && <Label htmlFor={id}>{label}</Label>}
       {textarea ? (
         <TextArea
+          css={cssInput}
           placeholder={placeholder}
           rows={10}
           id={id}
@@ -32,6 +37,7 @@ export const InputField = ({
         />
       ) : (
         <Input
+          css={cssInput}
           type={type}
           placeholder={placeholder}
           id={id}
