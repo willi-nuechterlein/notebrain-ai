@@ -22,7 +22,7 @@ export default function Home() {
   //   }
   // )
   // if (data) {
-  //   const parsedData = JSON.parse(data)
+  //   const parsedData = data
   //   if (parsedData.length && dialog?.length !== parsedData.length) {
   //     setDialog(parsedData)
   //   }

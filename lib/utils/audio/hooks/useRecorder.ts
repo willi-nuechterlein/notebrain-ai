@@ -144,7 +144,7 @@ export default function useRecorder() {
             //   })
             // })
             // if (!res.ok) throw new Error('Talk Error')
-            const newDialogPart = JSON.parse(await res.json())
+            const newDialogPart = await res.json()
 
             if (newDialogPart.is_question) {
               const answer = await fetch(` /api/ask`, {
@@ -157,7 +157,7 @@ export default function useRecorder() {
                   embedding: newDialogPart.embedding
                 })
               })
-              const answerJson = JSON.parse(await answer.json())
+              const answerJson = await answer.json()
               addDialog({
                 speaker: SpeakerType.AI,
                 text: answerJson.answer
