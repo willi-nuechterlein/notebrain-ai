@@ -14,7 +14,7 @@ export default async function handler(
   try {
     const records = await xata.db.dialogues
       .filter({ user_id: userId, is_question: false })
-      .sort('created_at', 'asc')
+      .sort('created_at', 'desc')
       .getAll()
     res.status(200).json(records)
   } catch (error: Error | any) {

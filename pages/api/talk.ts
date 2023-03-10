@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from 'openai'
 import { getAuth } from '@clerk/nextjs/server'
 import { getXataClient } from 'lib/db/xata'
+import { SpeakerType } from 'lib/jotai/text'
 
 const configuration = new Configuration({
   apiKey: process.env.OPEN_AI_KEY || ''
@@ -17,33 +18,33 @@ export default async function handler(
   if (!userId) {
     res.status(401).json('Unauthorized')
   }
-  const { speaker } = req.query
+  const { isQ } = req.query
   const { text } = req.body
   const openai = new OpenAIApi(configuration)
 
   try {
-    const reqBody = JSON.stringify({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        {
-          role: 'system',
-          content:
-            'Your are a speech recoginition assistant with the sole purpose of determining if a text contains a question.'
-        },
-        {
-          role: 'user',
-          content: `Does the folowing text contain a question? Repsond with {q: true} if it does and {q: false} if it does not contain a question. Text: ${text}`
-        }
-      ]
-    })
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      headers: {
-        Authorization: `Bearer ${process.env.OPEN_AI_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: reqBody
-    })
+    // const reqBody = JSON.stringify({
+    //   model: 'gpt-3.5-turbo',
+    //   messages: [
+    //     {
+    //       role: 'system',
+    //       content:
+    //         'Your are a speech recoginition assistant with the sole purpose of determining if a text contains a question.'
+    //     },
+    //     {
+    //       role: 'user',
+    //       content: `Does the folowing text contain a question? Repsond with {q: true} if it does and {q: false} if it does not contain a question. Text: ${text}`
+    //     }
+    //   ]
+    // })
+    // const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    //   headers: {
+    //     Authorization: `Bearer ${process.env.OPEN_AI_KEY}`,
+    //     'Content-Type': 'application/json'
+    //   },
+    //   method: 'POST',
+    //   body: reqBody
+    // })
 
     const resp = await openai.createEmbedding({
       input: text,
@@ -67,19 +68,19 @@ export default async function handler(
 
     // Speech:`
 
-    const json = await response.json()
-    const isQuestion = json.choices[0].message?.content?.includes('true')
+    // const json = await response.json()
+    // const isQuestion = json.choices[0].message?.content?.includes('true')
 
-    if (!userId || !speaker || !text) {
+    if (!userId || !text) {
       res.status(400).json('Missing data')
     }
     const record = await xata.db.dialogues.create({
       user_id: userId,
-      speaker: [String(speaker)],
+      speaker: [SpeakerType.USER],
       text,
       created_at: new Date(),
       embedding,
-      is_question: isQuestion
+      is_question: Boolean(isQ)
     })
     res.status(200).json(record)
 

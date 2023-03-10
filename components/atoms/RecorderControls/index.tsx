@@ -39,8 +39,8 @@ const pulsate = keyframes({
   }
 })
 
-const talk = async (text: string) => {
-  const res = await fetch(`/api/talk?speaker=user`, {
+const talk = async (text: string, isQuestion?: boolean) => {
+  const res = await fetch(`/api/talk${isQuestion ? '?isQ=true' : ''}`, {
     headers: {
       'Content-Type': 'application/json'
     },
@@ -51,7 +51,7 @@ const talk = async (text: string) => {
   })
   toast.success('sent')
   if (!res.ok) {
-    throw new Error('Error')
+    toast.success('Ups! Something went wrong.')
   }
   const data = await res.json()
   return data
@@ -102,7 +102,7 @@ export default function RecorderControls({
   const sendQuestion = async () => {
     setIsInputLoading(true)
     if (formik.values.text) {
-      const data = await talk(formik.values.text)
+      const data = await talk(formik.values.text, true)
       try {
         const answer = await fetch(`/api/ask`, {
           headers: {
@@ -142,8 +142,6 @@ export default function RecorderControls({
         borderRadius: '$mediumRadius',
         boxShadow: '$tileShadow',
         marginTop: '$12',
-        // paddingX: '$7',
-        // paddingY: '$5',
         marginBottom: '$5',
         position: 'relative'
       }}
