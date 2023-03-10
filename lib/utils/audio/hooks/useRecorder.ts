@@ -194,7 +194,13 @@ export default function useRecorder() {
           .getAudioTracks()
           .forEach((track: AudioTrack) => track.stop())
     }
-  }, [recorderState.mediaRecorder, addDialog, user?.id, setInputText])
+  }, [
+    recorderState.mediaRecorder,
+    addDialog,
+    user?.id,
+    setInputText,
+    setIsInputLoading
+  ])
 
   return {
     recorderState,
