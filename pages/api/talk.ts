@@ -11,7 +11,7 @@ const xata = getXataClient()
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<string | Error>
+  res: NextApiResponse<any>
 ) {
   const { userId } = getAuth(req)
   if (!userId) {
@@ -81,8 +81,7 @@ export default async function handler(
       embedding,
       is_question: isQuestion
     })
-    console.log(record)
-    res.status(200).json(JSON.stringify(record))
+    res.status(200).json(record)
 
     // const completion = await openai.createCompletion({
     //   model: 'text-davinci-003',

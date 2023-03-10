@@ -5,7 +5,7 @@ const xata = getXataClient()
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<string | Error>
+  res: NextApiResponse<any>
 ) {
   const { userId } = getAuth(req)
   if (!userId) {
@@ -21,7 +21,7 @@ export default async function handler(
       created_at: new Date()
     })
     console.log(record)
-    res.status(200).json(JSON.stringify(record))
+    res.status(200).json(record)
   } catch (error: Error | any) {
     if (error.response) {
       console.log(error.response.status)

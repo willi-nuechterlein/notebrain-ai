@@ -84,11 +84,11 @@ const Button = styled('button', {
       css: {
         backgroundColor: '$background',
         borderColor: '$secondary4',
-        color: '$secondary4',
+        color: '$secondary2',
         '&:hover': {
-          borderColor: '$secondary7',
+          borderColor: '$secondary5',
           backgroundColor: '$white',
-          color: '$secondary7'
+          color: '$secondary4'
         }
       }
     },

@@ -13,21 +13,6 @@ export default function Home() {
   const { recorderState, ...handlers }: UseRecorder = useRecorder()
   const [dialog] = useAtom(getSetDialogAtom)
 
-  // const { data } = useSWR(
-  //   () => (user?.id ? `/api/get-dialog?user=${user.id}` : null),
-  //   {
-  //     revalidateIfStale: false,
-  //     revalidateOnFocus: false,
-  //     revalidateOnReconnect: false
-  //   }
-  // )
-  // if (data) {
-  //   const parsedData = JSON.parse(data)
-  //   if (parsedData.length && dialog?.length !== parsedData.length) {
-  //     setDialog(parsedData)
-  //   }
-  // }
-
   return (
     <Box
       css={{
@@ -50,8 +35,8 @@ export default function Home() {
           alignItems: 'center'
         }}
       >
-        <Chat messages={dialog} />
         <RecorderControls recorderState={recorderState} handlers={handlers} />
+        <Chat messages={dialog} />
       </Box>
       <Footer />
     </Box>

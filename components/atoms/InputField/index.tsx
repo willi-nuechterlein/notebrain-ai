@@ -1,15 +1,17 @@
 import { Fieldset, Input, Label, TextArea } from 'components/atoms/Input'
-import { InputError } from 'components/atoms/InputError'
-import { Paragraph } from 'components/atoms/Paragraph'
+// import { InputError } from 'components/atoms/InputError'
+// import { Paragraph } from 'components/atoms/Paragraph'
 
 export const InputField = ({
   formik,
   id,
   label,
-  helperText,
+  // helperText,
   textarea,
   placeholder,
-  type
+  type,
+  css,
+  cssInput
 }: {
   formik: any
   id: string
@@ -18,12 +20,15 @@ export const InputField = ({
   textarea?: boolean
   placeholder?: string
   type?: string
+  css?: any
+  cssInput?: any
 }) => {
   return (
-    <Fieldset>
+    <Fieldset css={css}>
       {label && <Label htmlFor={id}>{label}</Label>}
       {textarea ? (
         <TextArea
+          css={cssInput}
           placeholder={placeholder}
           rows={10}
           id={id}
@@ -32,6 +37,7 @@ export const InputField = ({
         />
       ) : (
         <Input
+          css={cssInput}
           type={type}
           placeholder={placeholder}
           id={id}
@@ -39,10 +45,10 @@ export const InputField = ({
           value={formik.values[id]}
         />
       )}
-      {formik.errors[id] && formik.touched[id] ? (
+      {/* {formik.errors[id] && formik.touched[id] ? (
         <InputError>{formik.errors[id]}</InputError>
       ) : null}
-      {helperText && <Paragraph>{helperText}</Paragraph>}
+      {helperText && <Paragraph>{helperText}</Paragraph>} */}
     </Fieldset>
   )
 }

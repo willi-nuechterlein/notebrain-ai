@@ -6,7 +6,7 @@ import { getXataClient } from 'lib/db/xata'
 const xata = getXataClient()
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<string | Error>
+  res: NextApiResponse<any>
 ) {
   const { userId } = getAuth(req)
   if (!userId) {
@@ -47,9 +47,9 @@ export default async function handler(
       body: reqBody
     })
     const resJson = await response.json()
-    const answer = resJson.choices[0].message.content
+    const answer: string = resJson.choices[0].message.content
 
-    res.status(200).json(JSON.stringify({ answer, text, ...restRecord }))
+    res.status(200).json({ answer, text, ...restRecord })
   } catch (error: Error | any) {
     if (error.response) {
       console.log(error.response.status)
