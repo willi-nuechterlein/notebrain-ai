@@ -22,6 +22,7 @@ import {
   PaperPlaneIcon
 } from '@radix-ui/react-icons'
 import LoadingSpinner from 'components/atoms/LoadingSpinner'
+import { useSWRConfig } from 'swr'
 
 const pulsate = keyframes({
   '0%': {
@@ -65,6 +66,7 @@ export default function RecorderControls({
 }: RecorderControlsProps) {
   const { recordingSeconds } = recorderState
   const { startRecording, saveRecording } = handlers
+  const { mutate } = useSWRConfig()
   const [isListening, setIsListening] = useState<boolean>(false)
   const [, setDialog] = useAtom(getSetDialogAtom)
   const [inputText] = useAtom(getSetInputTextAtom)
@@ -86,6 +88,7 @@ export default function RecorderControls({
         console.error(error)
       }
       setIsInputLoading(false)
+      mutate(`/api/get-dialog`)
       formik.resetForm()
     }
   })
@@ -159,7 +162,7 @@ export default function RecorderControls({
             alignItems: 'center'
           }}
         >
-          <LoadingSpinner color="$primary11" />
+          <LoadingSpinner />
         </Box>
       ) : null}
       <form
@@ -190,6 +193,7 @@ export default function RecorderControls({
           }}
         >
           <Button
+            color="secondary"
             css={{
               width: '100%',
               margin: 0,
@@ -208,6 +212,7 @@ export default function RecorderControls({
             </Box>
           </Button>
           <Button
+            color="secondary"
             outlined
             css={{
               width: '100%',

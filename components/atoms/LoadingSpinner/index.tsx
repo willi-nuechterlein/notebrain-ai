@@ -22,7 +22,7 @@ const SpinnerCircle = styled('div', {
   border: '6px solid $primary9',
   borderRadius: '50%',
   animation: `${SpinnerKeyframes} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite`,
-  borderColor: '$primary9 transparent transparent transparent',
+  borderColor: '$secondary2 transparent transparent transparent',
   '&:nth-child(1)': {
     animationDelay: '-0.45s'
   },
@@ -36,30 +36,14 @@ const SpinnerCircle = styled('div', {
 
 type Props = {
   size?: number
-  color?: string
 }
 
-const LoadingSpinner: React.FC<Props> = ({
-  size = 64,
-  color = '$primary9'
-}) => {
+const LoadingSpinner: React.FC<Props> = ({ size = 64 }) => {
   return (
-    <SpinnerContainer style={{ width: `${size}px`, height: `${size}px` }}>
-      <SpinnerCircle
-        style={{ borderColor: `${color} transparent transparent transparent` }}
-      />
-      <SpinnerCircle
-        style={{
-          borderColor: `${color} transparent transparent transparent`,
-          animationDelay: '-0.3s'
-        }}
-      />
-      <SpinnerCircle
-        style={{
-          borderColor: `${color} transparent transparent transparent`,
-          animationDelay: '-0.15s'
-        }}
-      />
+    <SpinnerContainer css={{ width: `${size}px`, height: `${size}px` }}>
+      <SpinnerCircle />
+      <SpinnerCircle />
+      <SpinnerCircle />
     </SpinnerContainer>
   )
 }
