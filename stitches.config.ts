@@ -6,45 +6,44 @@ import {
   violet,
   blue,
   teal,
-  purple,
-  mauveDark,
-  mauve
+  indigo,
+  slate
 } from '@radix-ui/colors'
 
 import { createStitches } from '@stitches/react'
 
-export const primaryColor = purple
-export const secondaryColor = mauveDark
+export const primaryColor = indigo
+export const secondaryColor = slate
 const primary = {}
 Object.assign(primary, {
-  primary1: primaryColor.purple1,
-  primary2: primaryColor.purple2,
-  primary3: primaryColor.purple3,
-  primary4: primaryColor.purple4,
-  primary5: primaryColor.purple5,
-  primary6: primaryColor.purple6,
-  primary7: primaryColor.purple7,
-  primary8: primaryColor.purple8,
-  primary9: primaryColor.purple9,
-  primary10: primaryColor.purple10,
-  primary11: primaryColor.purple11,
-  primary12: primaryColor.purple12
+  primary1: primaryColor.indigo1,
+  primary2: primaryColor.indigo2,
+  primary3: primaryColor.indigo3,
+  primary4: primaryColor.indigo4,
+  primary5: primaryColor.indigo5,
+  primary6: primaryColor.indigo6,
+  primary7: primaryColor.indigo7,
+  primary8: primaryColor.indigo8,
+  primary9: primaryColor.indigo9,
+  primary10: primaryColor.indigo10,
+  primary11: primaryColor.indigo11,
+  primary12: primaryColor.indigo12
 })
 
 const secondary = {}
 Object.assign(secondary, {
-  secondary1: secondaryColor.mauve12,
-  secondary2: secondaryColor.mauve11,
-  secondary3: secondaryColor.mauve10,
-  secondary4: secondaryColor.mauve9,
-  secondary5: secondaryColor.mauve8,
-  secondary6: secondaryColor.mauve7,
-  secondary8: secondaryColor.mauve6,
-  secondary7: secondaryColor.mauve5,
-  secondary9: secondaryColor.mauve4,
-  secondary10: secondaryColor.mauve3,
-  secondary11: secondaryColor.mauve2,
-  secondary12: secondaryColor.mauve1
+  secondary1: secondaryColor.slate12,
+  secondary2: secondaryColor.slate11,
+  secondary3: secondaryColor.slate10,
+  secondary4: secondaryColor.slate9,
+  secondary5: secondaryColor.slate8,
+  secondary6: secondaryColor.slate7,
+  secondary8: secondaryColor.slate6,
+  secondary7: secondaryColor.slate5,
+  secondary9: secondaryColor.slate4,
+  secondary10: secondaryColor.slate3,
+  secondary11: secondaryColor.slate2,
+  secondary12: secondaryColor.slate1
 })
 
 export const {
@@ -69,7 +68,7 @@ export const {
       ...green,
       ...teal,
       white: '#fff',
-      background: mauve.mauve1,
+      background: slate.slate1,
       text: '$gray12',
       error: red.red9,
       success: green.green9
@@ -84,7 +83,7 @@ export const {
     fontSizes: {
       1: '0.25rem',
       2: '0.375rem',
-      3: '0.5rem',
+      3: '0.6rem',
       4: '0.75rem',
       5: '0.875rem',
       6: '1rem',

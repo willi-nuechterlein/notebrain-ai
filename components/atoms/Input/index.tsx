@@ -27,7 +27,7 @@ export const Input = styled('input', {
   boxSizing: 'border-box',
   backgroundColor: '$white',
 
-  '&:focus': { boxShadow: `0 0 1px 1px ${primaryColor.purple9}` }
+  '&:focus': { boxShadow: `0 0 1px 1px ${primaryColor.indigo9}` }
 })
 
 export const TextArea = styled('textarea', {
@@ -44,5 +44,5 @@ export const TextArea = styled('textarea', {
   backgroundColor: '$white',
   whiteSpace: 'pre-wrap',
 
-  '&:focus': { boxShadow: `0 0 1px 1px ${primaryColor.purple9}` }
+  '&:focus': { boxShadow: `0 0 1px 1px ${primaryColor.indigo9}` }
 })

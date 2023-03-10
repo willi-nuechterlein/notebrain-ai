@@ -5,9 +5,10 @@ export enum SpeakerType {
   USER = 'user'
 }
 
-interface DialogPart {
+export interface DialogPart {
   speaker: SpeakerType
   text: string
+  created_at?: string
 }
 
 export const dialogAtom = atom<Array<DialogPart>>([])
@@ -21,7 +22,23 @@ export const getSetDialogAtom = atom(
 
 export const addDialogPartAtom = atom(
   null,
-  (get, set, dialogPart: DialogPart) => {
+  (_get, set, dialogPart: DialogPart) => {
     set(dialogAtom, (prevDialog) => [...prevDialog, dialogPart])
+  }
+)
+
+export const inputTextAtom = atom<string>('')
+export const getSetInputTextAtom = atom(
+  (get) => get(inputTextAtom),
+  (_get, set, text: string) => {
+    set(inputTextAtom, text)
+  }
+)
+
+export const isInputLoadingAtom = atom<boolean>(false)
+export const getSetIsInputLoadingAtom = atom(
+  (get) => get(isInputLoadingAtom),
+  (_get, set, isLoading: boolean) => {
+    set(isInputLoadingAtom, isLoading)
   }
 )

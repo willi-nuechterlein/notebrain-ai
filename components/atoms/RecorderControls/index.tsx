@@ -1,7 +1,7 @@
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useAtom } from 'jotai'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { keyframes } from 'stitches.config'
 
 import { Box } from 'components/atoms/Box'
@@ -9,8 +9,9 @@ import Button from 'components/atoms/Button'
 import { InputField } from 'components/atoms/InputField'
 
 import {
-  addDialogPartAtom,
   getSetDialogAtom,
+  getSetInputTextAtom,
+  getSetIsInputLoadingAtom,
   SpeakerType
 } from 'lib/jotai/text'
 import { RecorderControlsProps } from 'lib/types/recorder'
@@ -20,6 +21,7 @@ import {
   MagnifyingGlassIcon,
   PaperPlaneIcon
 } from '@radix-ui/react-icons'
+import LoadingSpinner from 'components/atoms/LoadingSpinner'
 
 const pulsate = keyframes({
   '0%': {
@@ -46,7 +48,7 @@ const talk = async (text: string) => {
       text
     })
   })
-  toast.success('Success!')
+  toast.success('sent')
   if (!res.ok) {
     throw new Error('Error')
   }
@@ -62,10 +64,11 @@ export default function RecorderControls({
   handlers
 }: RecorderControlsProps) {
   const { recordingSeconds } = recorderState
-  const { startRecording, saveRecording, cancelRecording } = handlers
+  const { startRecording, saveRecording } = handlers
   const [isListening, setIsListening] = useState<boolean>(false)
-  const [, addDialog] = useAtom(addDialogPartAtom)
   const [, setDialog] = useAtom(getSetDialogAtom)
+  const [inputText] = useAtom(getSetInputTextAtom)
+  const [isInputLoading, setIsInputLoading] = useAtom(getSetIsInputLoadingAtom)
 
   const formik = useFormik<NoteFormProps>({
     initialValues: {
@@ -75,26 +78,28 @@ export default function RecorderControls({
       text: Yup.string().required('Required')
     }),
     onSubmit: async (values) => {
-      console.log('👉 ~ values:', values)
-      // setLoading(true)
+      setIsInputLoading(true)
       try {
-        const data = await talk(values.text)
-        console.log('👉 ~ data:', data)
-        // setSpeech(data)
+        await talk(values.text)
       } catch (error) {
         toast.error('Ups! Something went wrong.')
         console.error(error)
-        // setSpeech('Error')
       }
-      // setLoading(false)
+      setIsInputLoading(false)
+      formik.resetForm()
     }
   })
+  useEffect(() => {
+    if (inputText) {
+      formik.setFieldValue('text', inputText)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputText])
 
   const sendQuestion = async () => {
-    // setLoading(true)
+    setIsInputLoading(true)
     if (formik.values.text) {
       const data = await talk(formik.values.text)
-      console.log('👉 ~ data:', data)
       try {
         const answer = await fetch(`/api/ask`, {
           headers: {
@@ -107,17 +112,19 @@ export default function RecorderControls({
           })
         })
         const answerJson = await answer.json()
-        addDialog({
-          speaker: SpeakerType.AI,
-          text: answerJson.answer
-        })
+        setDialog([
+          {
+            speaker: SpeakerType.AI,
+            text: answerJson.answer
+          }
+        ])
       } catch (error) {
         toast.error('Ups! Something went wrong.')
         console.error(error)
-        // setSpeech('Error')
       }
     }
-    // setLoading(false)
+    formik.resetForm()
+    setIsInputLoading(false)
   }
 
   return (
@@ -138,6 +145,23 @@ export default function RecorderControls({
         position: 'relative'
       }}
     >
+      {isInputLoading ? (
+        <Box
+          css={{
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            borderRadius: '$mediumRadius',
+            opacity: 0.4,
+            backdropFilter: 'blur(120px)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <LoadingSpinner color="$primary11" />
+        </Box>
+      ) : null}
       <form
         onSubmit={formik.handleSubmit}
         style={{ width: '100%', height: '100%' }}
@@ -146,6 +170,7 @@ export default function RecorderControls({
           textarea
           id="text"
           formik={formik}
+          placeholder={`Add a note here... or ask a question about your notes...`}
           css={{
             width: '100%',
             margin: 0,
@@ -154,7 +179,8 @@ export default function RecorderControls({
           cssInput={{
             borderRadius: '$mediumRadius $mediumRadius 0 0 ',
             borderWidth: '0',
-            padding: '$6'
+            padding: '$6',
+            paddingTop: '$10'
           }}
         />
         <Box
@@ -198,7 +224,7 @@ export default function RecorderControls({
                 marginLeft: '$2'
               }}
             >
-              find
+              ask
             </Box>
           </Button>
         </Box>
@@ -206,8 +232,8 @@ export default function RecorderControls({
       <Box
         css={{
           position: 'absolute',
-          top: '4%',
-          right: '-40%',
+          top: '2%',
+          right: '-41%',
           width: '100%',
           display: 'flex',
           alignItems: 'center',

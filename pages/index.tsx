@@ -13,21 +13,6 @@ export default function Home() {
   const { recorderState, ...handlers }: UseRecorder = useRecorder()
   const [dialog] = useAtom(getSetDialogAtom)
 
-  // const { data } = useSWR(
-  //   () => (user?.id ? `/api/get-dialog?user=${user.id}` : null),
-  //   {
-  //     revalidateIfStale: false,
-  //     revalidateOnFocus: false,
-  //     revalidateOnReconnect: false
-  //   }
-  // )
-  // if (data) {
-  //   const parsedData = data
-  //   if (parsedData.length && dialog?.length !== parsedData.length) {
-  //     setDialog(parsedData)
-  //   }
-  // }
-
   return (
     <Box
       css={{
