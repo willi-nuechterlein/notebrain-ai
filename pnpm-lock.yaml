@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@babel/core': ^7.21.0
   '@clerk/nextjs': ^4.11.5
+  '@formkit/auto-animate': 1.0.0-beta.6
   '@next/font': ^13.2.1
   '@radix-ui/colors': ^0.1.8
   '@radix-ui/react-accordion': ^1.1.0
@@ -52,6 +53,7 @@ specifiers:
 dependencies:
   '@babel/core': 7.21.0
   '@clerk/nextjs': 4.11.5_ogpkrxaz2lg6nectum6dl66tn4
+  '@formkit/auto-animate': 1.0.0-beta.6
   '@next/font': 13.2.1
   '@radix-ui/colors': 0.1.8
   '@radix-ui/react-accordion': 1.1.0_biqbaboplfbrettd7655fr4n2y
@@ -435,6 +437,10 @@ packages:
       use-isomorphic-layout-effect: 1.1.2_fan5qbzahqtxlm5dzefqlqx5ia
     transitivePeerDependencies:
       - '@types/react'
+    dev: false
+
+  /@formkit/auto-animate/1.0.0-beta.6:
+    resolution: {integrity: sha512-PVDhLAlr+B4Xb7e+1wozBUWmXa6BFU8xUPR/W/E+TsQhPS1qkAdAsJ25keEnFrcePSnXHrOsh3tiFbEToOzV9w==}
     dev: false
 
   /@humanwhocodes/config-array/0.11.7:

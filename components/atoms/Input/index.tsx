@@ -1,4 +1,4 @@
-import { primaryColor, styled } from 'stitches.config'
+import { primaryColor, secondaryColor, styled } from 'stitches.config'
 
 export const Fieldset = styled('fieldset', {
   all: 'unset',
@@ -44,5 +44,5 @@ export const TextArea = styled('textarea', {
   backgroundColor: '$white',
   whiteSpace: 'pre-wrap',
 
-  '&:focus': { boxShadow: `0 0 1px 1px ${primaryColor.indigo9}` }
+  '&:focus': { boxShadow: `0 1px 10px 1px ${secondaryColor.slate7}` }
 })

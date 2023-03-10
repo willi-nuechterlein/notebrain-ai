@@ -36,11 +36,12 @@ const Button = styled('button', {
         }
       },
       secondary: {
-        backgroundColor: '$secondary6',
-        borderColor: '$secondary6',
-        color: '$secondary1',
+        backgroundColor: '$secondary2',
+        borderColor: '$secondary2',
+        color: '$secondary12',
         '&:hover': {
-          backgroundColor: '$secondary7'
+          backgroundColor: '$secondary3',
+          borderColor: '$secondary3'
         },
         '&:focus': {
           boxShadow: '0 0 0 2px $secondary7'
@@ -83,12 +84,12 @@ const Button = styled('button', {
       outlined: true,
       css: {
         backgroundColor: '$background',
-        borderColor: '$secondary4',
+        borderColor: '$secondary2',
         color: '$secondary2',
         '&:hover': {
-          borderColor: '$secondary5',
+          borderColor: '$secondary3',
           backgroundColor: '$white',
-          color: '$secondary4'
+          color: '$secondary3'
         }
       }
     },

@@ -1,35 +1,21 @@
 import useSWR from 'swr'
-import { styled, keyframes } from 'stitches.config'
-import { DialogPart, getSetDialogAtom, SpeakerType } from 'lib/jotai/text'
+import { styled } from 'stitches.config'
+import { getSetDialogAtom, SpeakerType } from 'lib/jotai/text'
 import { Box } from 'components/atoms/Box'
 import Button from 'components/atoms/Button'
 import { Typography } from 'components/atoms/Typography'
 import { useAtom } from 'jotai'
-import { useState } from 'react'
-
-interface ChatProps {
-  messages: DialogPart[]
-}
-
-const slideIn = keyframes({
-  from: { opacity: 0, transform: 'translateY(50%)' },
-  to: { opacity: 1, transform: 'translateY(0%)' }
-})
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const ChatContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
-  gap: '10px',
-  borderRadius: '$mediumRadius',
-  boxShadow: '$tileShadow',
-  padding: '$7',
+  gap: '$4',
   width: '100%',
   maxWidth: '50rem',
-  // height: '100%',
-  minHeight: '5rem',
+  height: '100%',
   maxHeight: '50rem',
-  backgroundColor: '$white',
   overflowY: 'scroll',
   '&::-webkit-scrollbar': {
     display: 'none'
@@ -40,90 +26,80 @@ const ChatContainer = styled('div', {
 
 const ChatMessageContainer = styled('div', {
   padding: '$4',
+  paddingTop: '$6',
   borderRadius: '$smallRadius',
   fontSize: '$5',
   maxWidth: '60%',
-  animation: `${slideIn} 0.5s ease`,
   backgroundColor: '$gray1',
   border: '1px solid $secondary2'
 })
 
 const ChatMessageText = styled('div', {})
 
-export const Chat: React.FC<ChatProps> = ({ messages }) => {
-  const [, setDialog] = useAtom(getSetDialogAtom)
-  const [historyVisible, setHistoryVisible] = useState(false)
-  const { data } = useSWR(`/api/get-dialog`, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false
-  })
+export const Chat: React.FC = () => {
+  const [parent] = useAutoAnimate()
+  const [dialog, setDialog] = useAtom(getSetDialogAtom)
+  const { data } = useSWR(`/api/get-dialog`)
   if (data) {
     console.log('👉 ~ data:', data)
   }
-
+  // useEffect(() => {
+  //   if (data) {
+  //     setDialog(data)
+  //   }
+  // }, [data, setDialog])
   return (
     <>
-      <Box
-        css={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          gap: '$2',
-          alignItems: 'center'
-        }}
-      >
-        <Typography
-          as="span"
+      {data?.length > 1 && (
+        <Box
           css={{
-            fontSize: '$4',
-            color: '$secondary1'
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: '$2',
+            alignItems: 'center'
           }}
         >
-          You have {data?.length || 0} notes
-        </Typography>
-        {!historyVisible ? (
-          <Button
-            size="small"
-            color="secondary"
-            outlined
-            onClick={() => {
-              setHistoryVisible(true)
-              setDialog(data)
-            }}
-          >
-            show all
-          </Button>
-        ) : (
-          <Button
-            size="small"
-            color="secondary"
-            outlined
-            onClick={() => {
-              setHistoryVisible(false)
-              setDialog([])
-            }}
-          >
-            hide all
-          </Button>
-        )}
-      </Box>
-      <ChatContainer>
-        {!messages.length ? (
           <Typography
+            as="span"
             css={{
-              fontSize: '$5',
+              fontSize: '$4',
               color: '$secondary2'
             }}
           >
-            Your results will appear here. You can also click on the &quot;show
-            all&quot; to see all your notes.
+            You have {data?.length || 0} notes
           </Typography>
-        ) : null}
-        {messages.map((message) => (
-          <Box key={message.text.substring(0, 20)}>
+          {dialog.length <= 1 ? (
+            <Button
+              size="small"
+              color="secondary"
+              outlined
+              onClick={() => {
+                setDialog(data)
+              }}
+            >
+              show all
+            </Button>
+          ) : (
+            <Button
+              size="small"
+              color="secondary"
+              outlined
+              onClick={() => {
+                setDialog([])
+              }}
+            >
+              hide all
+            </Button>
+          )}
+        </Box>
+      )}
+      <ChatContainer ref={parent}>
+        {dialog.map((message) => (
+          <Box key={message.created_at || message.text}>
             <ChatMessageContainer
               css={{
+                position: 'relative',
                 alignSelf: 'flex-start',
                 color:
                   message.speaker === SpeakerType.AI
@@ -134,17 +110,18 @@ export const Chat: React.FC<ChatProps> = ({ messages }) => {
               }}
             >
               <ChatMessageText>{message.text}</ChatMessageText>
+              <Typography
+                css={{
+                  position: 'absolute',
+                  fontSize: '$3',
+                  color: '$secondary4',
+                  top: '$2',
+                  right: '$3'
+                }}
+              >
+                {message.created_at?.substring(0, 10)}
+              </Typography>
             </ChatMessageContainer>
-            <Typography
-              css={{
-                fontSize: '$3',
-                color: '$secondary4',
-                marginTop: '$2',
-                marginBottom: '$3'
-              }}
-            >
-              {message.created_at?.substring(0, 10)}
-            </Typography>
           </Box>
         ))}
       </ChatContainer>
