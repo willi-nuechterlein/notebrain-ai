@@ -1,21 +1,14 @@
-import { Box } from 'components/atoms/Box'
-import Footer from 'components/molecules/Footer'
-
-import Nav from 'components/molecules/Nav'
+import { Typography } from 'components/atoms/Typography'
 
 export default function Home() {
   return (
-    <Box
+    <Typography
+      as="h1"
       css={{
-        display: 'flex',
-        justifyContent: 'start',
-        alignItems: 'center',
-        flexDirection: 'column'
+        marginTop: '10rem'
       }}
     >
-      <Nav />
-
-      <Footer />
-    </Box>
+      Make sense of your brain dumps
+    </Typography>
   )
 }

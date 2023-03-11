@@ -5,6 +5,9 @@ import { Inter } from '@next/font/google'
 import { Toaster } from 'react-hot-toast'
 import { SWRConfig } from 'swr'
 import { ClerkProvider } from '@clerk/nextjs'
+import Nav from 'components/molecules/Nav'
+import { Box } from 'components/atoms/Box'
+import Footer from 'components/molecules/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -53,7 +56,19 @@ export default function App({ Component, pageProps }: AppProps) {
                 }
               }}
             />
-            <Component {...pageProps} />
+            <Box
+              css={{
+                display: 'flex',
+                justifyContent: 'start',
+                alignItems: 'center',
+                flexDirection: 'column'
+              }}
+            >
+              <Nav />
+
+              <Component {...pageProps} />
+              <Footer />
+            </Box>
           </JotaiProvider>
         </SWRConfig>
       </ClerkProvider>

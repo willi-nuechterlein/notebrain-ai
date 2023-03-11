@@ -1,6 +1,5 @@
 import { Box } from 'components/atoms/Box'
 import RecorderControls from 'components/atoms/RecorderControls'
-import Footer from 'components/molecules/Footer'
 
 import { UseRecorder } from 'lib/types/recorder'
 import useRecorder from 'lib/utils/audio/hooks/useRecorder'
@@ -12,28 +11,18 @@ export default function AppPage() {
   return (
     <Box
       css={{
+        height: '100vh',
+        width: '100%',
+        maxWidth: '50rem',
         display: 'flex',
-        justifyContent: 'start',
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'column'
+        paddingX: '$2'
       }}
     >
-      {/* <Nav /> */}
-      <Box
-        css={{
-          height: '100vh',
-          width: '100%',
-          maxWidth: '50rem',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <RecorderControls recorderState={recorderState} handlers={handlers} />
-        <Chat />
-      </Box>
-      <Footer />
+      <RecorderControls recorderState={recorderState} handlers={handlers} />
+      <Chat />
     </Box>
   )
 }

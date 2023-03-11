@@ -1,8 +1,7 @@
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import { Box } from 'components/atoms/Box'
 import Button from 'components/atoms/Button'
-import Logo from 'components/atoms/Logo'
-import { FOURTH_SECTION } from 'lib/consts/sections'
-import Link from 'next/link'
+import { Typography } from 'components/atoms/Typography'
 
 const Nav = () => (
   <Box
@@ -14,26 +13,50 @@ const Nav = () => (
       maxWidth: '60rem',
       padding: '$3',
       position: 'fixed',
-      backdropFilter: 'blur(12px)'
+      backdropFilter: 'blur(12px)',
+      zIndex: 1,
+      height: '4rem'
     }}
   >
-    <Logo />
+    <Typography
+      css={{
+        fontSize: '$6',
+        fontWeight: 'bolder',
+        color: '$secondary1'
+      }}
+    >
+      muu.cool
+    </Typography>
+
     <Box>
-      <Link href={`#examples`}>
+      <SignedIn>
+        {/* Mount the UserButton component */}
+
+        <UserButton afterSignOutUrl="/" />
+      </SignedIn>
+
+      <SignedOut>
+        {/* Signed out users get sign in button */}
+        <SignInButton afterSignInUrl="/app">
+          <Button size="small">Sign In</Button>
+        </SignInButton>
+      </SignedOut>
+
+      {/* <Link href={`#examples`}>
         <Button as="span" size="small" color="secondary" plain>
-          Examples
+        Examples
         </Button>
-      </Link>
-      <Link href={`#pricing`}>
+        </Link>
+        <Link href={`#pricing`}>
         <Button as="span" size="small" color="secondary" plain>
-          Pricing
+        Pricing
         </Button>
-      </Link>
-      <Link href={`#${FOURTH_SECTION}`}>
+      </Link> */}
+      {/* <Link href={`#${FOURTH_SECTION}`}>
         <Button as="span" size="small" outlined>
-          Speech
+        Login
         </Button>
-      </Link>
+      </Link> */}
     </Box>
   </Box>
 )

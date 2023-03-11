@@ -146,7 +146,7 @@ export default function RecorderControls({
         backgroundColor: '$white',
         borderRadius: '$mediumRadius',
         boxShadow: '$tileShadow',
-        marginTop: '$12',
+        marginTop: '10rem',
         marginBottom: '$5',
         position: 'relative'
       }}
