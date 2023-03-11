@@ -120,6 +120,11 @@ export default function RecorderControls({
             speaker: SpeakerType.AI,
             text: answerJson.answer
           }
+          // ...answerJson.records.map((r) => ({
+          //   speaker: SpeakerType.USER,
+          //   text: r.text,
+          //   created_at: r.created_at
+          // }))
         ])
       } catch (error) {
         toast.error('Ups! Something went wrong.')

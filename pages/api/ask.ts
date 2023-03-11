@@ -15,12 +15,20 @@ export default async function handler(
   const { question, embedding: questionEmbedding } = req.body
 
   try {
-    const answerRecord = await xata.db.dialogues.vectorSearch(
+    const answerRecords = await xata.db.dialogues.vectorSearch(
       'embedding',
       questionEmbedding,
-      { filter: { user_id: userId, is_question: false } }
+      {
+        // similarityFunction: 'l2',
+        size: 5,
+        filter: { user_id: userId, is_question: false }
+      }
     )
-    const { embedding, text, ...restRecord } = answerRecord[0]
+    // const { embedding, text, ...restRecord } = answerRecords[0]
+
+    const relevantInformation = answerRecords
+      .map((record) => record.text)
+      .join('\n')
 
     const reqBody = JSON.stringify({
       model: 'gpt-3.5-turbo',
@@ -34,7 +42,7 @@ export default async function handler(
           role: 'user',
           content: `Answer the question based on the information given. If you don't find the answer in the information respond with "Sorry. I can't answer this question." 
           Question: ${question}
-          Information: ${text} `
+          Information: ${relevantInformation} `
         }
       ]
     })
@@ -49,7 +57,7 @@ export default async function handler(
     const resJson = await response.json()
     const answer: string = resJson.choices[0].message.content
 
-    res.status(200).json({ answer, text, ...restRecord })
+    res.status(200).json({ answer, records: answerRecords })
   } catch (error: Error | any) {
     if (error.response) {
       console.log(error.response.status)
