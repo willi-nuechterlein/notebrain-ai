@@ -15,7 +15,7 @@ export default async function handler(
   const { question, embedding: questionEmbedding } = req.body
 
   try {
-    const answerRecords = await xata.db.dialogues.vectorSearch(
+    const results = await xata.db.dialogues.vectorSearch(
       'embedding',
       questionEmbedding,
       {
@@ -24,9 +24,24 @@ export default async function handler(
         filter: { user_id: userId, is_question: false }
       }
     )
+    console.log('👉 ~ answerRecords:', results)
+
+    const resultsWithMetaData = results
+      .map((result) => {
+        const metaData = result.getMetadata()
+        // console.log('👉 ~ result:', result.text)
+        // console.log('👉 ~ metaData:', metaData)
+        return {
+          metaData,
+          ...result
+        }
+      })
+      .filter(
+        (result) => result?.metaData.score && result?.metaData.score > 1.8
+      )
     // const { embedding, text, ...restRecord } = answerRecords[0]
 
-    const relevantInformation = answerRecords
+    const relevantInformation = resultsWithMetaData
       .map((record) => record.text)
       .join('\n')
 
@@ -57,7 +72,11 @@ export default async function handler(
     const resJson = await response.json()
     const answer: string = resJson.choices[0].message.content
 
-    res.status(200).json({ answer, records: answerRecords })
+    const answerRecordsWithoutEmbeddings = resultsWithMetaData.map((record) => {
+      const { embedding, metaData, ...restRecord } = record
+      return restRecord
+    })
+    res.status(200).json({ answer, records: answerRecordsWithoutEmbeddings })
   } catch (error: Error | any) {
     if (error.response) {
       console.log(error.response.status)

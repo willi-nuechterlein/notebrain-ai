@@ -21,7 +21,8 @@ const globalStyles = globalCss({
     overflowX: 'auto'
   },
   'a': {
-    unset: 'all'
+    unset: 'all',
+    textDecoration: 'none'
   }
 })
 

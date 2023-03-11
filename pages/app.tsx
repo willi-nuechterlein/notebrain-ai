@@ -1,5 +1,3 @@
-import { useAtom } from 'jotai'
-
 import { Box } from 'components/atoms/Box'
 import RecorderControls from 'components/atoms/RecorderControls'
 import Footer from 'components/molecules/Footer'
