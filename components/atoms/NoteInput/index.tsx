@@ -1,8 +1,7 @@
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useAtom } from 'jotai'
-import { useEffect, useState } from 'react'
-import { keyframes } from 'stitches.config'
+import { useEffect } from 'react'
 
 import { Box } from 'components/atoms/Box'
 import Button from 'components/atoms/Button'
@@ -14,30 +13,25 @@ import {
   getSetIsInputLoadingAtom,
   SpeakerType
 } from 'lib/jotai/text'
-import { RecorderControlsProps } from 'lib/types/recorder'
 import { toast } from 'react-hot-toast'
-import {
-  CircleIcon,
-  MagnifyingGlassIcon,
-  PaperPlaneIcon
-} from '@radix-ui/react-icons'
+import { MagnifyingGlassIcon, PaperPlaneIcon } from '@radix-ui/react-icons'
 import LoadingSpinner from 'components/atoms/LoadingSpinner'
 import { useSWRConfig } from 'swr'
 
-const pulsate = keyframes({
-  '0%': {
-    transform: 'scale(1)',
-    opacity: 1
-  },
-  '50%': {
-    transform: 'scale(1.2)',
-    opacity: 0.5
-  },
-  '100%': {
-    transform: 'scale(1)',
-    opacity: 1
-  }
-})
+// const pulsate = keyframes({
+//   '0%': {
+//     transform: 'scale(1)',
+//     opacity: 1
+//   },
+//   '50%': {
+//     transform: 'scale(1.2)',
+//     opacity: 0.5
+//   },
+//   '100%': {
+//     transform: 'scale(1)',
+//     opacity: 1
+//   }
+// })
 
 const talk = async (text: string, isQuestion?: boolean) => {
   const res = await fetch(`/api/talk${isQuestion ? '?isQ=true' : ''}`, {
@@ -60,15 +54,18 @@ const talk = async (text: string, isQuestion?: boolean) => {
 interface NoteFormProps {
   text: string
 }
-export default function RecorderControls({
-  recorderState,
-  handlers
-}: RecorderControlsProps) {
-  const { recordingSeconds } = recorderState
-  const { startRecording, saveRecording } = handlers
-  const { mutate } = useSWRConfig()
-  const [isListening, setIsListening] = useState<boolean>(false)
+
+export type NoteInputProps = {
+  isDemo?: boolean
+}
+export default function NoteInput({ isDemo }: NoteInputProps) {
+  // const { recorderState, ...handlers }: UseRecorder = useRecorder()
+
+  // const { recordingSeconds } = recorderState
+  // const { startRecording, saveRecording } = handlers
+  // const [isListening, setIsListening] = useState<boolean>(false)
   const [, setDialog] = useAtom(getSetDialogAtom)
+  const { mutate } = useSWRConfig()
   const [inputText] = useAtom(getSetInputTextAtom)
   const [isInputLoading, setIsInputLoading] = useAtom(getSetIsInputLoadingAtom)
 
@@ -144,11 +141,10 @@ export default function RecorderControls({
         alignItems: 'flex-start',
         width: '100%',
         backgroundColor: '$white',
-        borderRadius: '$mediumRadius',
+        borderRadius: '$largeRadius',
         boxShadow: '$tileShadow',
-        marginTop: '10rem',
-        marginBottom: '$5',
-        position: 'relative'
+        position: 'relative',
+        zIndex: 2
       }}
     >
       {isInputLoading ? (
@@ -196,6 +192,7 @@ export default function RecorderControls({
           }}
         >
           <Button
+            disabled={isDemo}
             color="secondary"
             css={{
               width: '100%',
@@ -215,6 +212,7 @@ export default function RecorderControls({
             </Box>
           </Button>
           <Button
+            disabled={isDemo}
             color="secondary"
             outlined
             css={{
@@ -237,7 +235,7 @@ export default function RecorderControls({
           </Button>
         </Box>
       </form>
-      <Box
+      {/* <Box
         css={{
           position: 'absolute',
           top: '2%',
@@ -301,22 +299,7 @@ export default function RecorderControls({
             </Box>
           </Button>
         )}
-        {/* {isListening && (
-          <Button
-            outlined
-            css={{
-              marginLeft: '1rem',
-              width: '1rem'
-            }}
-            onClick={() => {
-              setIsListening(false)
-              cancelRecording()
-            }}
-          >
-            <Cross2Icon color="primary" />
-          </Button>
-        )} */}
-      </Box>
+      </Box> */}
 
       {/* <Button
         onClick={() => {

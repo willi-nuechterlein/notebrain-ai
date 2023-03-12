@@ -1,13 +1,9 @@
 import { Box } from 'components/atoms/Box'
-import RecorderControls from 'components/atoms/RecorderControls'
+import NoteInput from 'components/atoms/NoteInput'
 
-import { UseRecorder } from 'lib/types/recorder'
-import useRecorder from 'lib/utils/audio/hooks/useRecorder'
 import { Chat } from 'components/organismns/Chat'
 
 export default function AppPage() {
-  const { recorderState, ...handlers }: UseRecorder = useRecorder()
-
   return (
     <Box
       css={{
@@ -21,7 +17,7 @@ export default function AppPage() {
         paddingX: '$2'
       }}
     >
-      <RecorderControls recorderState={recorderState} handlers={handlers} />
+      <NoteInput />
       <Chat />
     </Box>
   )

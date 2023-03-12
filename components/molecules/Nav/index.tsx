@@ -14,18 +14,27 @@ const Nav = () => (
       padding: '$3',
       position: 'fixed',
       backdropFilter: 'blur(12px)',
-      zIndex: 1,
+      zIndex: 10,
       height: '4rem'
     }}
   >
     <Typography
       css={{
-        fontSize: '$6',
-        fontWeight: 'bolder',
+        fontSize: '$7',
+        fontWeight: 600,
         color: '$secondary1'
       }}
     >
-      muu.cool
+      notebr
+      <Box
+        as="span"
+        css={{
+          fontWeight: 400
+        }}
+      >
+        ai
+      </Box>
+      n
     </Typography>
 
     <Box>
