@@ -176,7 +176,7 @@ export default function RecorderControls({
           textarea
           id="text"
           formik={formik}
-          placeholder={`Add a note here... or ask a question about your notes...`}
+          placeholder={`Add a note... or ask a question about your notes...`}
           css={{
             width: '100%',
             margin: 0,
@@ -232,7 +232,7 @@ export default function RecorderControls({
                 marginLeft: '$2'
               }}
             >
-              ask
+              find
             </Box>
           </Button>
         </Box>

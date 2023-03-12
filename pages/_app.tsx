@@ -21,7 +21,7 @@ const globalStyles = globalCss({
     color: '$text',
     scrollBehavior: 'smooth !important',
     width: '100vw',
-    overflowX: 'auto'
+    overflowX: 'hidden'
   },
   'a': {
     unset: 'all',
