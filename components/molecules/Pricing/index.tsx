@@ -28,25 +28,25 @@ const Check = () => (
   </Box>
 )
 
-const Cross = () => (
-  <Box
-    as="span"
-    css={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'inline',
-      width: '1.3rem',
-      height: '1.3rem',
-      borderRadius: '50%',
-      backgroundColor: '$red5',
-      border: '1px solid $red8',
-      marginRight: '$2'
-    }}
-  >
-    <Cross2Icon />
-  </Box>
-)
+// const Cross = () => (
+//   <Box
+//     as="span"
+//     css={{
+//       display: 'flex',
+//       alignItems: 'center',
+//       justifyContent: 'center',
+//       position: 'inline',
+//       width: '1.3rem',
+//       height: '1.3rem',
+//       borderRadius: '50%',
+//       backgroundColor: '$red5',
+//       border: '1px solid $red8',
+//       marginRight: '$2'
+//     }}
+//   >
+//     <Cross2Icon />
+//   </Box>
+// )
 const Pricing = () => (
   <>
     <Box
