@@ -13,9 +13,9 @@ const FeaturesSection = () => (
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      backgroundColor: '$white',
-      borderRadius: '$mainRadius',
-      boxShadow: '$sectionShadow',
+      // backgroundColor: '$white',
+      // borderRadius: '$mainRadius',
+      // boxShadow: '$sectionShadow',
       paddingY: 60,
       paddingTop: '10rem',
       zIndex: 1
@@ -37,10 +37,10 @@ const FeaturesSection = () => (
         '@lg': {
           width: '70%',
           maxWidth: '70rem'
-        },
-        '@xl': {
-          gridTemplateColumns: 'repeat(3, 1fr)'
         }
+        // '@xl': {
+        //   gridTemplateColumns: 'repeat(3, 1fr)'
+        // }
       }}
     >
       <FeaturesTile

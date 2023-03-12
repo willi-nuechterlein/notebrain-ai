@@ -75,7 +75,7 @@ const Pricing = () => (
         paddingX: '$4',
 
         width: '100%',
-        maxWidth: '32rem',
+        maxWidth: '26rem',
         '@md': {
           paddingX: '$8'
         }

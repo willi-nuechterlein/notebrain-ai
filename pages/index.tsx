@@ -106,6 +106,17 @@ export default function Home() {
             zindex: -10
           }}
         />
+        <Box
+          css={{
+            width: '100vw',
+            height: '40vh',
+            backgroundColor: '$background',
+            position: 'absolute',
+            left: '-50%',
+            top: '7.5rem',
+            zindex: -10
+          }}
+        />
         <NoteInput isDemo />
       </Box>
       <FeaturesSection />
