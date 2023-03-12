@@ -38,7 +38,9 @@ const Nav = () => (
       <SignedOut>
         {/* Signed out users get sign in button */}
         <SignInButton afterSignInUrl="/app">
-          <Button size="small">Sign In</Button>
+          <Button size="small" outlined>
+            Sign In
+          </Button>
         </SignInButton>
       </SignedOut>
 
