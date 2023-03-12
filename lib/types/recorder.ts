@@ -16,15 +16,6 @@ export type UseRecorder = {
   saveRecording: () => void
 }
 
-export type RecorderControlsProps = {
-  recorderState: Recorder
-  handlers: {
-    startRecording: () => void
-    cancelRecording: () => void
-    saveRecording: () => void
-  }
-}
-
 export type RecordingsListProps = {
   audio: string | null
 }

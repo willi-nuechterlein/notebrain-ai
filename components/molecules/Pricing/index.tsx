@@ -2,11 +2,11 @@ import { Box } from 'components/atoms/Box'
 import List from 'components/atoms/List'
 import { Title } from 'components/atoms/Title'
 import * as React from 'react'
-import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { CheckIcon } from '@radix-ui/react-icons'
 import { Paragraph } from 'components/atoms/Paragraph'
 import Button from 'components/atoms/Button'
-import { FOURTH_SECTION } from 'lib/consts/sections'
 import Link from 'next/link'
+import SectionTitle from 'components/atoms/SectionTitle'
 
 const Check = () => (
   <Box
@@ -28,33 +28,40 @@ const Check = () => (
   </Box>
 )
 
-const Cross = () => (
-  <Box
-    as="span"
-    css={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'inline',
-      width: '1.3rem',
-      height: '1.3rem',
-      borderRadius: '50%',
-      backgroundColor: '$red5',
-      border: '1px solid $red8',
-      marginRight: '$2'
-    }}
-  >
-    <Cross2Icon />
-  </Box>
-)
+// const Cross = () => (
+//   <Box
+//     as="span"
+//     css={{
+//       display: 'flex',
+//       alignItems: 'center',
+//       justifyContent: 'center',
+//       position: 'inline',
+//       width: '1.3rem',
+//       height: '1.3rem',
+//       borderRadius: '50%',
+//       backgroundColor: '$red5',
+//       border: '1px solid $red8',
+//       marginRight: '$2'
+//     }}
+//   >
+//     <Cross2Icon />
+//   </Box>
+// )
 const Pricing = () => (
   <>
     <Box
       css={{
-        marginBottom: '4vh'
+        marginTop: '8vh'
       }}
       id="pricing"
     />
+    <SectionTitle
+      css={{
+        marginBottom: '4vh'
+      }}
+    >
+      pricing
+    </SectionTitle>
     <Box
       css={{
         height: '100%',
@@ -65,11 +72,10 @@ const Pricing = () => (
         borderRadius: '$mainRadius',
         boxShadow: '$sectionShadow',
         marginX: '$3',
-        marginTop: '8vh',
         paddingX: '$4',
 
         width: '100%',
-        maxWidth: '32rem',
+        maxWidth: '26rem',
         '@md': {
           paddingX: '$8'
         }
@@ -80,9 +86,16 @@ const Pricing = () => (
           marginTop: '$10'
         }}
       >
-        15 €
+        6 €
+        <Paragraph
+          as="span"
+          css={{
+            marginLeft: '$2'
+          }}
+        >
+          / month
+        </Paragraph>
       </Title>
-      <Paragraph>One-Time Payment</Paragraph>
       <List
         css={{
           marginY: '$8',
@@ -97,23 +110,24 @@ const Pricing = () => (
         }}
       >
         <li>
-          <Check /> Custom speech written by AI technology
+          <Check />
+          Feature 01
         </li>
         <li>
-          <Check /> Up to 10 revisions
+          <Check /> Feature 02
         </li>
         <li>
-          <Check /> Edit Purpose, Message, Anecdotes, and References
+          <Check /> Feature 03
         </li>
         <li>
           <Check />
-          Convenient and cost-effective
+          Feature 04
         </li>
-        <li>
+        {/* <li>
           <Cross /> Occasion, Audience, and Tone are locked after purchase
-        </li>
+        </li> */}
       </List>
-      <Link href={`#${FOURTH_SECTION}`}>
+      <Link href={`/app`}>
         <Button
           css={{
             marginBottom: '$10'
@@ -121,7 +135,7 @@ const Pricing = () => (
           as="span"
           outlined
         >
-          Create Your Speech Now
+          Start Now
         </Button>
       </Link>
     </Box>

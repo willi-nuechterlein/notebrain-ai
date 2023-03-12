@@ -12,7 +12,7 @@ const ChatContainer = styled('div', {
   flexDirection: 'column',
   justifyContent: 'flex-start',
   gap: '$4',
-  width: '100%',
+  width: '65%',
   maxWidth: '50rem',
   height: '100%',
   maxHeight: '50rem',
@@ -21,17 +21,21 @@ const ChatContainer = styled('div', {
     display: 'none'
   },
   '-ms-overflow-style': 'none',
-  scrollbarWidth: 'none'
+  scrollbarWidth: 'none',
+  marginTop: '$5'
 })
 
 const ChatMessageContainer = styled('div', {
   padding: '$4',
-  paddingTop: '$6',
+  paddingBottom: '$7',
   borderRadius: '$smallRadius',
   fontSize: '$5',
-  maxWidth: '60%',
-  backgroundColor: '$gray1',
-  border: '1px solid $secondary2'
+  width: '100%',
+  marginX: 'auto',
+  backgroundColor: '$white',
+  border: '1px solid $secondary6',
+  color: '$text',
+  boxShadow: '$noteShadow'
 })
 
 const ChatMessageText = styled('div', {})
@@ -78,7 +82,7 @@ export const Chat: React.FC = () => {
                 setDialog(data)
               }}
             >
-              show all
+              show
             </Button>
           ) : (
             <Button
@@ -89,7 +93,7 @@ export const Chat: React.FC = () => {
                 setDialog([])
               }}
             >
-              hide all
+              hide
             </Button>
           )}
         </Box>
@@ -103,10 +107,15 @@ export const Chat: React.FC = () => {
                 alignSelf: 'flex-start',
                 color:
                   message.speaker === SpeakerType.AI
-                    ? '$primary12'
+                    ? '$primary10'
                     : '$secondary2',
                 backgroundColor:
-                  message.speaker === SpeakerType.AI ? '$primary4' : '$gray1'
+                  message.speaker === SpeakerType.AI ? '$primary4' : '$gray1',
+                borderColor:
+                  message.speaker === SpeakerType.AI
+                    ? '$primary6'
+                    : '$secondary6',
+                paddingBottom: message.speaker === SpeakerType.AI ? '$4' : '$7'
               }}
             >
               <ChatMessageText>{message.text}</ChatMessageText>
@@ -115,7 +124,7 @@ export const Chat: React.FC = () => {
                   position: 'absolute',
                   fontSize: '$3',
                   color: '$secondary4',
-                  top: '$2',
+                  bottom: '$2',
                   right: '$3'
                 }}
               >

@@ -13,7 +13,7 @@ const Button = styled('button', {
   marginY: '$2',
   cursor: 'pointer',
   //   boxShadow: '$tileShadow',
-  borderWidth: '2px',
+  borderWidth: '1px',
   borderStyle: 'solid',
   borderColor: '$primary9',
 
