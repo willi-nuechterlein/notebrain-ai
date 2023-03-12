@@ -5,8 +5,8 @@ import * as React from 'react'
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { Paragraph } from 'components/atoms/Paragraph'
 import Button from 'components/atoms/Button'
-import { FOURTH_SECTION } from 'lib/consts/sections'
 import Link from 'next/link'
+import SectionTitle from 'components/atoms/SectionTitle'
 
 const Check = () => (
   <Box
@@ -51,10 +51,17 @@ const Pricing = () => (
   <>
     <Box
       css={{
-        marginBottom: '4vh'
+        marginTop: '8vh'
       }}
       id="pricing"
     />
+    <SectionTitle
+      css={{
+        marginBottom: '4vh'
+      }}
+    >
+      pricing
+    </SectionTitle>
     <Box
       css={{
         height: '100%',
@@ -65,7 +72,6 @@ const Pricing = () => (
         borderRadius: '$mainRadius',
         boxShadow: '$sectionShadow',
         marginX: '$3',
-        marginTop: '8vh',
         paddingX: '$4',
 
         width: '100%',
@@ -80,9 +86,16 @@ const Pricing = () => (
           marginTop: '$10'
         }}
       >
-        15 €
+        6 €
+        <Paragraph
+          as="span"
+          css={{
+            marginLeft: '$2'
+          }}
+        >
+          / month
+        </Paragraph>
       </Title>
-      <Paragraph>One-Time Payment</Paragraph>
       <List
         css={{
           marginY: '$8',
@@ -97,23 +110,24 @@ const Pricing = () => (
         }}
       >
         <li>
-          <Check /> Custom speech written by AI technology
+          <Check />
+          Feature 01
         </li>
         <li>
-          <Check /> Up to 10 revisions
+          <Check /> Feature 02
         </li>
         <li>
-          <Check /> Edit Purpose, Message, Anecdotes, and References
+          <Check /> Feature 03
         </li>
         <li>
           <Check />
-          Convenient and cost-effective
+          Feature 04
         </li>
-        <li>
+        {/* <li>
           <Cross /> Occasion, Audience, and Tone are locked after purchase
-        </li>
+        </li> */}
       </List>
-      <Link href={`#${FOURTH_SECTION}`}>
+      <Link href={`/app`}>
         <Button
           css={{
             marginBottom: '$10'
@@ -121,7 +135,7 @@ const Pricing = () => (
           as="span"
           outlined
         >
-          Create Your Speech Now
+          Start Now
         </Button>
       </Link>
     </Box>

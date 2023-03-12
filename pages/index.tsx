@@ -3,6 +3,7 @@ import Button from 'components/atoms/Button'
 import NoteInput from 'components/atoms/NoteInput'
 import { Paragraph } from 'components/atoms/Paragraph'
 import { Title } from 'components/atoms/Title'
+import Pricing from 'components/molecules/Pricing'
 import FeaturesSection from 'components/organismns/FeaturesSection'
 import Link from 'next/link'
 
@@ -108,6 +109,7 @@ export default function Home() {
         <NoteInput isDemo />
       </Box>
       <FeaturesSection />
+      <Pricing />
     </Box>
   )
 }

@@ -21,7 +21,7 @@ const FeaturesTile = ({ title, text }: FeaturesTileProps) => {
           css={{
             width: '4rem',
             height: '4rem',
-            border: '1px solid $secondary5',
+            border: '1px solid $primary7',
             borderRadius: '$smallRadius',
             margin: '1rem',
             boxShadow: '$sectionShadowBottom'
