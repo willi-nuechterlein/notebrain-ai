@@ -17,7 +17,7 @@ const FeaturesSection = () => (
       // borderRadius: '$mainRadius',
       // boxShadow: '$sectionShadow',
       paddingY: 60,
-      paddingTop: '10rem',
+      paddingTop: '18rem',
       zIndex: 1
     }}
   >

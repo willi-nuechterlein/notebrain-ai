@@ -24,7 +24,7 @@ export default async function handler(
         filter: { user_id: userId, is_question: false }
       }
     )
-    console.log('👉 ~ answerRecords:', results)
+    // console.log('👉 ~ answerRecords:', results)
 
     const resultsWithMetaData = results
       .map((result) => {
@@ -37,7 +37,7 @@ export default async function handler(
         }
       })
       .filter(
-        (result) => result?.metaData.score && result?.metaData.score > 1.8
+        (result) => result?.metaData.score && result?.metaData.score > 1.75
       )
     // const { embedding, text, ...restRecord } = answerRecords[0]
 
@@ -55,7 +55,7 @@ export default async function handler(
         },
         {
           role: 'user',
-          content: `Answer the question based on the information given. If you don't find the answer in the information respond with "Sorry. I can't answer this question." 
+          content: `Answer the question based on the information given. If you don't find the answer in the information respond with "Sorry. Your notes don't contain any relevant information." 
           Question: ${question}
           Information: ${relevantInformation} `
         }

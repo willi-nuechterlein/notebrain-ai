@@ -12,7 +12,7 @@ const ChatContainer = styled('div', {
   flexDirection: 'column',
   justifyContent: 'flex-start',
   gap: '$4',
-  width: '65%',
+  width: '100%',
   maxWidth: '50rem',
   height: '100%',
   maxHeight: '50rem',
@@ -35,7 +35,8 @@ const ChatMessageContainer = styled('div', {
   backgroundColor: '$white',
   border: '1px solid $secondary6',
   color: '$text',
-  boxShadow: '$noteShadow'
+  boxShadow: '$noteShadow',
+  whiteSpace: 'pre-wrap'
 })
 
 const ChatMessageText = styled('div', {})
@@ -110,7 +111,7 @@ export const Chat: React.FC = () => {
                     ? '$primary10'
                     : '$secondary2',
                 backgroundColor:
-                  message.speaker === SpeakerType.AI ? '$primary4' : '$gray1',
+                  message.speaker === SpeakerType.AI ? '$primary4' : '$white',
                 borderColor:
                   message.speaker === SpeakerType.AI
                     ? '$primary6'
