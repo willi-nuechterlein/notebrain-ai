@@ -14,21 +14,21 @@ export default function Home() {
         width: '100%',
         height: '100%',
         minHeight: '80vh',
-        paddingTop: '20vh',
+        paddingTop: '25vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         marginBottom: '-1rem',
         '@md': {
-          paddingTop: '15vh',
+          paddingTop: '20vh',
           minHeight: '62vh'
         }
       }}
     >
       <Title
         css={{
-          fontSize: '$11',
-          marginY: '$4',
+          fontSize: '$12',
+          marginY: '$8',
           marginX: '$1',
           '& span': {
             display: 'block'
@@ -40,7 +40,8 @@ export default function Home() {
           fontWeight: 800
         }}
       >
-        <span>Search Your Mind</span>
+        <span>Don&apos;t think about notes.</span>
+        <span>Let notes think for you.</span>
       </Title>
       <Paragraph
         css={{
@@ -95,26 +96,22 @@ export default function Home() {
       >
         <Box
           css={{
-            width: '39rem',
-            height: '38rem',
-            borderRadius: '100%',
+            width: '25rem',
+            height: '10rem',
+            borderTopLeftRadius: '50%',
+            borderTopRightRadius: '50%',
             backgroundColor: '$primary8',
             position: 'absolute',
             filter: 'blur(180px)',
             opacity: 0.4,
             marginTop: '-5rem',
-            zindex: -10
-          }}
-        />
-        <Box
-          css={{
-            width: '100vw',
-            height: '40vh',
-            backgroundColor: '$background',
-            position: 'absolute',
-            left: '-50%',
-            top: '7.5rem',
-            zindex: -10
+            marginX: 'auto',
+            zindex: -10,
+            '@md': {
+              width: '39rem',
+              height: '20rem',
+              marginTop: '-5rem'
+            }
           }}
         />
         <NoteInput isDemo />

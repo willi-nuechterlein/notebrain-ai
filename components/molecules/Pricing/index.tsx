@@ -1,11 +1,12 @@
+import * as React from 'react'
+import Link from 'next/link'
+import { CheckIcon } from '@radix-ui/react-icons'
+
 import { Box } from 'components/atoms/Box'
 import List from 'components/atoms/List'
 import { Title } from 'components/atoms/Title'
-import * as React from 'react'
-import { CheckIcon } from '@radix-ui/react-icons'
 import { Paragraph } from 'components/atoms/Paragraph'
 import Button from 'components/atoms/Button'
-import Link from 'next/link'
 import SectionTitle from 'components/atoms/SectionTitle'
 
 const Check = () => (
