@@ -172,7 +172,7 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
           textarea
           id="text"
           formik={formik}
-          placeholder={`Add a note... or ask a question about your notes...`}
+          placeholder={`Add a note... or find answers in your notes...`}
           css={{
             width: '100%',
             margin: 0,

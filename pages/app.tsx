@@ -14,7 +14,8 @@ export default function AppPage() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingX: '$2'
+        paddingX: '$2',
+        paddingTop: '10vh'
       }}
     >
       <NoteInput />

@@ -40,8 +40,7 @@ export default function Home() {
           fontWeight: 800
         }}
       >
-        <span>Don&apos;t think about notes.</span>
-        <span>Let notes think for you.</span>
+        <span>Let your notes think for you.</span>
       </Title>
       <Paragraph
         css={{
