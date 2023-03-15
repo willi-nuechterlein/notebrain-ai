@@ -1,6 +1,7 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import { Box } from 'components/atoms/Box'
 import Button from 'components/atoms/Button'
+import Logo from 'components/atoms/Logo'
 import { Typography } from 'components/atoms/Typography'
 
 const Nav = () => (
@@ -18,24 +19,33 @@ const Nav = () => (
       height: '4rem'
     }}
   >
-    <Typography
+    <Box
       css={{
-        fontSize: '$7',
-        fontWeight: 600,
-        color: '$secondary1'
+        display: 'flex',
+        alignItems: 'center'
       }}
     >
-      notebr
-      <Box
-        as="span"
+      <Logo size={30} />
+      <Typography
         css={{
-          fontWeight: 400
+          marginLeft: '$2',
+          fontSize: '$7',
+          fontWeight: 600,
+          color: '$secondary1'
         }}
       >
-        ai
-      </Box>
-      n
-    </Typography>
+        notebr
+        <Box
+          as="span"
+          css={{
+            fontWeight: 400
+          }}
+        >
+          ai
+        </Box>
+        n
+      </Typography>
+    </Box>
 
     <Box>
       <SignedIn>
