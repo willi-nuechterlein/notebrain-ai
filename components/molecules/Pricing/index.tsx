@@ -87,7 +87,7 @@ const Pricing = () => (
           marginTop: '$10'
         }}
       >
-        6 €
+        4.5 €
         <Paragraph
           as="span"
           css={{
@@ -112,17 +112,17 @@ const Pricing = () => (
       >
         <li>
           <Check />
-          Feature 01
+          Unlimited notes
         </li>
         <li>
-          <Check /> Feature 02
+          <Check /> Find relevant notes in seconds
         </li>
         <li>
-          <Check /> Feature 03
+          <Check /> Voice input
         </li>
         <li>
           <Check />
-          Feature 04
+          Ask follow-up questions
         </li>
         {/* <li>
           <Cross /> Occasion, Audience, and Tone are locked after purchase
