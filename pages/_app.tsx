@@ -2,9 +2,11 @@ import type { AppProps } from 'next/app'
 import { Provider as JotaiProvider } from 'jotai'
 import { globalCss } from 'stitches.config'
 import { Inter } from '@next/font/google'
+import { Analytics } from '@vercel/analytics/react'
 import { Toaster } from 'react-hot-toast'
 import { SWRConfig } from 'swr'
 import { ClerkProvider } from '@clerk/nextjs'
+
 import Nav from 'components/molecules/Nav'
 import { Box } from 'components/atoms/Box'
 import Footer from 'components/molecules/Footer'
@@ -69,6 +71,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <Component {...pageProps} />
               <Footer />
             </Box>
+            <Analytics />
           </JotaiProvider>
         </SWRConfig>
       </ClerkProvider>
