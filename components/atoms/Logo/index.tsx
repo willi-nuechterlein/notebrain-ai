@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-const Logo = () => {
+const Logo = ({ size = 60 }: { size?: number }) => {
   return (
     // <Box
     //   css={{
@@ -10,7 +10,7 @@ const Logo = () => {
     //     marginTop: '1vh'
     //   }}
     // >
-    <Image src="/logo.svg" alt="logo" width={60} height={60} />
+    <Image src="/logo.svg" alt="logo" width={size} height={size} />
     // </Box>
   )
 }
