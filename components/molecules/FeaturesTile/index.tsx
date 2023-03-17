@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { Box } from 'components/atoms/Box'
 import { Paragraph } from 'components/atoms/Paragraph'
 import { TileContainer } from 'components/atoms/TileContainer'
@@ -7,8 +8,9 @@ import { Title } from 'components/atoms/Title'
 interface FeaturesTileProps {
   title: string
   text: string
+  icon?: ReactNode
 }
-const FeaturesTile = ({ title, text }: FeaturesTileProps) => {
+const FeaturesTile = ({ title, text, icon }: FeaturesTileProps) => {
   return (
     <TileContainer>
       <Box
@@ -24,9 +26,14 @@ const FeaturesTile = ({ title, text }: FeaturesTileProps) => {
             border: '1px solid $primary7',
             borderRadius: '$smallRadius',
             margin: '1rem',
-            boxShadow: '$sectionShadowBottom'
+            boxShadow: '$sectionShadowBottom',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
-        />
+        >
+          {icon}
+        </Box>
       </Box>
 
       <TileTextContainer>
