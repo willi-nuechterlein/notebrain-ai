@@ -10,14 +10,14 @@ import Button from 'components/atoms/Button'
 const DialogTitle = styled(Dialog.Title, {
   margin: 0,
   fontWeight: 500,
-  color: '$secondary12',
-  fontSize: 17
+  color: '$text',
+  fontSize: '$7'
 })
 
 const DialogDescription = styled(Dialog.Description, {
-  margin: '10px 0 20px',
-  color: '$secondary4',
-  fontSize: 15,
+  margin: '$3 0 20px 0',
+  color: '$text',
+  fontSize: '$5',
   lineHeight: 1.5
 })
 
@@ -26,9 +26,9 @@ const contentShow = keyframes({
   '100%': { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }
 })
 export const StyledDialogContent = styled(Dialog.Content, {
-  zIndex: 3,
-  backgroundColor: '$gray3',
-  borderRadius: '$mainRadius',
+  zIndex: 9999,
+  backgroundColor: '$white',
+  borderRadius: '$mediumRadius',
   boxShadow:
     'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
   position: 'fixed',
@@ -60,12 +60,19 @@ export const DialogContent = ({
       {description && <DialogDescription>{description}</DialogDescription>}
       {children}
       <Box css={{ display: 'flex', marginTop: 25, justifyContent: 'flex-end' }}>
+        {actions}
         <Dialog.Close asChild>
-          <Button color="secondary" outlined size="small">
+          <Button
+            color="secondary"
+            outlined
+            size="small"
+            css={{
+              marginLeft: '$2'
+            }}
+          >
             Cancel
           </Button>
         </Dialog.Close>
-        {actions}
       </Box>
       <Dialog.Close asChild>
         <IconButton aria-label="Close">

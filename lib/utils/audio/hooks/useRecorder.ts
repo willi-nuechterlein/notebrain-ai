@@ -16,7 +16,6 @@ import {
   getSetInputTextAtom,
   getSetIsInputLoadingAtom
 } from 'lib/jotai/text'
-import { userAtom } from 'lib/jotai/user'
 
 const initialState: Recorder = {
   recordingMinutes: 0,
@@ -30,7 +29,6 @@ const initialState: Recorder = {
 export default function useRecorder() {
   const [recorderState, setRecorderState] = useState<Recorder>(initialState)
   const [, addDialog] = useAtom(addDialogPartAtom)
-  const [user] = useAtom(userAtom)
   const [, setInputText] = useAtom(getSetInputTextAtom)
   const [, setIsInputLoading] = useAtom(getSetIsInputLoadingAtom)
 
@@ -194,13 +192,7 @@ export default function useRecorder() {
           .getAudioTracks()
           .forEach((track: AudioTrack) => track.stop())
     }
-  }, [
-    recorderState.mediaRecorder,
-    addDialog,
-    user?.id,
-    setInputText,
-    setIsInputLoading
-  ])
+  }, [recorderState.mediaRecorder, addDialog, setInputText, setIsInputLoading])
 
   return {
     recorderState,

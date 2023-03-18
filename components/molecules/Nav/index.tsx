@@ -51,7 +51,11 @@ const Nav = () => (
       <SignedIn>
         {/* Mount the UserButton component */}
 
-        <UserButton afterSignOutUrl="/" />
+        <UserButton
+          afterSignOutUrl="/"
+          userProfileUrl="/account"
+          userProfileMode="navigation"
+        />
       </SignedIn>
 
       <SignedOut>

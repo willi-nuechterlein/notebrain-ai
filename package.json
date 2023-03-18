@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.21.0",
+    "@clerk/clerk-sdk-node": "^4.7.14",
     "@clerk/nextjs": "^4.11.5",
     "@formkit/auto-animate": "1.0.0-beta.6",
     "@next/font": "^13.2.1",
@@ -45,6 +46,7 @@
     "formik": "^2.2.9",
     "jotai": "^1.13.1",
     "jotai-optics": "^0.2.1",
+    "logsnag": "^0.1.6",
     "nanoid": "^4.0.1",
     "next": "13.0.3",
     "next-auth": "^4.19.2",
