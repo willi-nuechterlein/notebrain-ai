@@ -17,6 +17,8 @@ import { toast } from 'react-hot-toast'
 import { MagnifyingGlassIcon, PaperPlaneIcon } from '@radix-ui/react-icons'
 import LoadingSpinner from 'components/atoms/LoadingSpinner'
 import { useSWRConfig } from 'swr'
+import userSubscriptionStatus from 'lib/utils/userSubscriptionStatus'
+import { useUser } from '@clerk/nextjs'
 
 // const pulsate = keyframes({
 //   '0%': {
@@ -33,21 +35,27 @@ import { useSWRConfig } from 'swr'
 //   }
 // })
 
-const talk = async (text: string, isQuestion?: boolean) => {
-  const res = await fetch(`/api/talk${isQuestion ? '?isQ=true' : ''}`, {
+const talk = async (text: string, isQuestion?: boolean, limited = true) => {
+  const res = await fetch(`/api/talk`, {
     headers: {
       'Content-Type': 'application/json'
     },
     method: 'POST',
     body: JSON.stringify({
-      text
+      text,
+      limited,
+      isQ: isQuestion
     })
   })
-  toast.success('sent')
+  if (res.status === 403) {
+    toast.error('You reached your monthly limit.')
+    return
+  }
   if (!res.ok) {
-    toast.success('Ups! Something went wrong.')
+    toast.error('Ups! Something went wrong.')
   }
   const data = await res.json()
+  toast.success('sent')
   return data
 }
 
@@ -59,6 +67,8 @@ export type NoteInputProps = {
   isDemo?: boolean
 }
 export default function NoteInput({ isDemo }: NoteInputProps) {
+  const { user } = useUser()
+  const subscription = userSubscriptionStatus(user)
   // const { recorderState, ...handlers }: UseRecorder = useRecorder()
 
   // const { recordingSeconds } = recorderState
@@ -79,7 +89,7 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
     onSubmit: async (values) => {
       setIsInputLoading(true)
       try {
-        await talk(values.text)
+        await talk(values.text, false, !subscription?.active)
       } catch (error) {
         toast.error('Ups! Something went wrong.')
         console.error(error)
@@ -99,7 +109,7 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
   const sendQuestion = async () => {
     setIsInputLoading(true)
     if (formik.values.text) {
-      const data = await talk(formik.values.text, true)
+      const data = await talk(formik.values.text, true, false)
       try {
         const answer = await fetch(`/api/ask`, {
           headers: {

@@ -1,6 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from 'openai'
 import { getAuth } from '@clerk/nextjs/server'
+import { Ratelimit } from '@upstash/ratelimit'
+import { Redis } from '@upstash/redis'
+
 import { getXataClient } from 'lib/db/xata'
 import { SpeakerType } from 'lib/jotai/text'
 
@@ -10,6 +13,16 @@ const configuration = new Configuration({
 
 const xata = getXataClient()
 
+const redis = new Redis({
+  url: 'https://eu2-merry-bird-32058.upstash.io',
+  token:
+    'AX06ASQgNzU2ZTljYzAtMjU0Mi00N2QxLTgyNWQtY2Q4MjgwMDIyNDg4ZjQ2MzM1MGM3NWU4NDRkNWEwMWRjM2E5YjY5OWY1NjE='
+})
+const ratelimit = new Ratelimit({
+  redis: redis,
+  limiter: Ratelimit.fixedWindow(30, '2592000 s')
+})
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
@@ -17,8 +30,23 @@ export default async function handler(
   const { userId } = getAuth(req)
   if (!userId) {
     res.status(401).json('Unauthorized')
+    return
   }
-  const { isQ } = req.query
+  const { isQ, limited } = req.body
+  let rateLimitResult
+  if (!isQ && limited) {
+    rateLimitResult = await ratelimit.limit(userId)
+    res.setHeader('X-RateLimit-Limit', rateLimitResult.limit)
+    res.setHeader('X-RateLimit-Remaining', rateLimitResult.remaining)
+
+    if (!rateLimitResult.success) {
+      res.status(403).json({
+        message: 'The request has been rate limited.',
+        rateLimitState: rateLimitResult
+      })
+      return
+    }
+  }
   const { text } = req.body
   const openai = new OpenAIApi(configuration)
 
@@ -82,7 +110,9 @@ export default async function handler(
       embedding,
       is_question: Boolean(isQ)
     })
-    res.status(200).json(record)
+    res
+      .status(200)
+      .json({ ...record, rateLimitState: rateLimitResult || undefined })
 
     // const completion = await openai.createCompletion({
     //   model: 'text-davinci-003',
