@@ -9,7 +9,7 @@ const DialogPortal = styled(Dialog.Portal)
 
 interface DialogProps {
   children?: ReactNode
-  trigger: ReactNode
+  trigger?: ReactNode
   actions?: ReactNode
   title?: string
   description?: string

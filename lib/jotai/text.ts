@@ -9,6 +9,7 @@ export interface DialogPart {
   speaker: SpeakerType
   text: string
   created_at?: string
+  id: string
 }
 
 export const dialogAtom = atom<Array<DialogPart>>([])
