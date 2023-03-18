@@ -6,6 +6,7 @@ import Button from 'components/atoms/Button'
 import { Typography } from 'components/atoms/Typography'
 import { useAtom } from 'jotai'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useEffect } from 'react'
 
 const ChatContainer = styled('div', {
   display: 'flex',
@@ -45,14 +46,11 @@ export const Chat: React.FC = () => {
   const [parent] = useAutoAnimate()
   const [dialog, setDialog] = useAtom(getSetDialogAtom)
   const { data } = useSWR(`/api/get-dialog`)
-  if (data) {
-    console.log('👉 ~ data:', data)
-  }
-  // useEffect(() => {
-  //   if (data) {
-  //     setDialog(data)
-  //   }
-  // }, [data, setDialog])
+  useEffect(() => {
+    if (data?.length > 1 && dialog.length > 0) {
+      setDialog(data)
+    }
+  })
   return (
     <>
       {data?.length > 1 && (
