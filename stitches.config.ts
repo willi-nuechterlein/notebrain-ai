@@ -7,13 +7,14 @@ import {
   blue,
   teal,
   indigo,
-  slate
+  slate,
+  slateDark
 } from '@radix-ui/colors'
 
 import { createStitches } from '@stitches/react'
 
 export const primaryColor = indigo
-export const secondaryColor = slate
+export const secondaryColor = slateDark
 const primary = {}
 Object.assign(primary, {
   primary1: primaryColor.indigo1,
@@ -32,18 +33,18 @@ Object.assign(primary, {
 
 const secondary = {}
 Object.assign(secondary, {
-  secondary1: secondaryColor.slate12,
-  secondary2: secondaryColor.slate11,
-  secondary3: secondaryColor.slate10,
-  secondary4: secondaryColor.slate9,
-  secondary5: secondaryColor.slate8,
-  secondary6: secondaryColor.slate7,
-  secondary8: secondaryColor.slate6,
-  secondary7: secondaryColor.slate5,
-  secondary9: secondaryColor.slate4,
-  secondary10: secondaryColor.slate3,
-  secondary11: secondaryColor.slate2,
-  secondary12: secondaryColor.slate1
+  secondary1: secondaryColor.slate1,
+  secondary2: secondaryColor.slate2,
+  secondary3: secondaryColor.slate3,
+  secondary4: secondaryColor.slate4,
+  secondary5: secondaryColor.slate5,
+  secondary6: secondaryColor.slate6,
+  secondary8: secondaryColor.slate7,
+  secondary7: secondaryColor.slate8,
+  secondary9: secondaryColor.slate9,
+  secondary10: secondaryColor.slate10,
+  secondary11: secondaryColor.slate11,
+  secondary12: secondaryColor.slate12
 })
 
 export const {

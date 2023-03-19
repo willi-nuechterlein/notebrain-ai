@@ -44,5 +44,5 @@ export const TextArea = styled('textarea', {
   backgroundColor: '$white',
   whiteSpace: 'pre-wrap',
 
-  '&:focus': { boxShadow: `0 1px 10px 1px ${secondaryColor.slate7}` }
+  '&:focus': { boxShadow: `0 5px 10px 5px ${secondaryColor.slate12}` }
 })

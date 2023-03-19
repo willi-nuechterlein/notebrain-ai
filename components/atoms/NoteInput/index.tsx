@@ -8,9 +8,10 @@ import Button from 'components/atoms/Button'
 import { InputField } from 'components/atoms/InputField'
 
 import {
-  getSetDialogAtom,
+  getSetAnswerTextAtom,
   getSetInputTextAtom,
   getSetIsInputLoadingAtom,
+  getSetSourcesAtom,
   SpeakerType
 } from 'lib/jotai/text'
 import { toast } from 'react-hot-toast'
@@ -74,7 +75,8 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
   // const { recordingSeconds } = recorderState
   // const { startRecording, saveRecording } = handlers
   // const [isListening, setIsListening] = useState<boolean>(false)
-  const [, setDialog] = useAtom(getSetDialogAtom)
+  const [, setAnswer] = useAtom(getSetAnswerTextAtom)
+  const [, setSources] = useAtom(getSetSourcesAtom)
   const { mutate } = useSWRConfig()
   const [inputText] = useAtom(getSetInputTextAtom)
   const [isInputLoading, setIsInputLoading] = useAtom(getSetIsInputLoadingAtom)
@@ -110,6 +112,11 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
     setIsInputLoading(true)
     if (formik.values.text) {
       const data = await talk(formik.values.text, true, false)
+      if (!data.text || !data.embedding) {
+        toast.error('Ups! Something went wrong.')
+        setIsInputLoading(false)
+        return
+      }
       try {
         const answer = await fetch(`/api/ask`, {
           headers: {
@@ -121,18 +128,23 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
             embedding: data.embedding
           })
         })
+        if (!answer.ok) {
+          toast.error('Ups! Something went wrong.')
+          setIsInputLoading(false)
+          return
+        }
         const answerJson = await answer.json()
-        setDialog([
-          {
-            speaker: SpeakerType.AI,
-            text: answerJson.answer
-          },
-          ...answerJson.records.map((r: any) => ({
+        setAnswer({
+          speaker: SpeakerType.AI,
+          text: answerJson.answer
+        })
+        setSources(
+          answerJson.records.map((r: any) => ({
             speaker: SpeakerType.USER,
             text: r.text,
             created_at: r.created_at
           }))
-        ])
+        )
       } catch (error) {
         toast.error('Ups! Something went wrong.')
         console.error(error)

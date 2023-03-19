@@ -3,86 +3,113 @@ import { Box } from 'components/atoms/Box'
 import Button from 'components/atoms/Button'
 import Logo from 'components/atoms/Logo'
 import { Typography } from 'components/atoms/Typography'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-const Nav = () => (
-  <Box
-    css={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: '100%',
-      maxWidth: '60rem',
-      padding: '$3',
-      position: 'fixed',
-      backdropFilter: 'blur(12px)',
-      zIndex: 10,
-      height: '4rem'
-    }}
-  >
+const Nav = () => {
+  const router = useRouter()
+  const path = router.pathname
+  const isApp = path === '/app'
+  const isAccount = path === '/account'
+  return (
     <Box
       css={{
         display: 'flex',
-        alignItems: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        position: 'fixed',
+        backdropFilter: 'blur(12px)',
+        zIndex: 10,
+        height: '4rem'
       }}
     >
-      <Logo size={30} />
-      <Typography
+      <Box
         css={{
-          marginLeft: '$2',
-          fontSize: '$7',
-          fontWeight: 600,
-          color: '$secondary1'
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+          maxWidth: '60rem',
+          padding: '$3'
         }}
       >
-        notebr
         <Box
-          as="span"
           css={{
-            fontWeight: 400
+            display: 'flex',
+            alignItems: 'center'
           }}
         >
-          ai
+          <Logo size={33} />
+          {isApp || isAccount ? null : (
+            <Typography
+              css={{
+                marginLeft: '$2',
+                fontSize: '$7',
+                fontWeight: 600,
+                color: '$primary8'
+              }}
+            >
+              notebr
+              <Box
+                as="span"
+                css={{
+                  fontWeight: 400
+                }}
+              >
+                ai
+              </Box>
+              n
+            </Typography>
+          )}
         </Box>
-        n
-      </Typography>
-    </Box>
 
-    <Box>
-      <SignedIn>
-        {/* Mount the UserButton component */}
+        <Box
+          css={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '$3'
+          }}
+        >
+          {!isApp && (
+            <Link href={'/app'}>
+              <Button
+                as="span"
+                size="small"
+                plain
+                css={{
+                  color: '$secondary2'
+                }}
+              >
+                App
+              </Button>
+            </Link>
+          )}
 
-        <UserButton
-          afterSignOutUrl="/"
-          userProfileUrl="/account"
-          userProfileMode="navigation"
-        />
-      </SignedIn>
+          <SignedIn>
+            <UserButton
+              afterSignOutUrl="/"
+              userProfileUrl="/account"
+              userProfileMode="navigation"
+            />
+          </SignedIn>
 
-      <SignedOut>
-        {/* Signed out users get sign in button */}
-        <SignInButton afterSignInUrl="/app">
-          <Button size="small" outlined>
-            Sign In
-          </Button>
-        </SignInButton>
-      </SignedOut>
+          <SignedOut>
+            <SignInButton afterSignInUrl="/app">
+              <Button size="small" outlined>
+                Sign In
+              </Button>
+            </SignInButton>
+          </SignedOut>
 
-      {/* <Link href={`#examples`}>
-        <Button as="span" size="small" color="secondary" plain>
-        Examples
-        </Button>
-        </Link>
-        <Link href={`#pricing`}>
-        <Button as="span" size="small" color="secondary" plain>
-        Pricing
-        </Button>
-      </Link> */}
-      {/* <Link href={`#${FOURTH_SECTION}`}>
+          {/* <Link href={`#${FOURTH_SECTION}`}>
         <Button as="span" size="small" outlined>
         Login
         </Button>
       </Link> */}
+        </Box>
+      </Box>
     </Box>
-  </Box>
-)
+  )
+}
 export default Nav
