@@ -39,10 +39,12 @@ export const TextArea = styled('textarea', {
   borderColor: '$secondary2',
   padding: '10px',
   fontSize: '$5',
-  lineHeight: 1,
+  fontWeight: '400',
+  color: '$text',
+  lineHeight: 1.5,
   width: '100%',
   backgroundColor: '$white',
   whiteSpace: 'pre-wrap',
 
-  '&:focus': { boxShadow: `0 1px 10px 1px ${secondaryColor.slate7}` }
+  '&:focus': { boxShadow: `0 5px 10px 5px ${secondaryColor.slate12}` }
 })

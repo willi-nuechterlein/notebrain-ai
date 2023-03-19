@@ -16,7 +16,6 @@ import {
   getSetInputTextAtom,
   getSetIsInputLoadingAtom
 } from 'lib/jotai/text'
-import { userAtom } from 'lib/jotai/user'
 
 const initialState: Recorder = {
   recordingMinutes: 0,
@@ -30,7 +29,6 @@ const initialState: Recorder = {
 export default function useRecorder() {
   const [recorderState, setRecorderState] = useState<Recorder>(initialState)
   const [, addDialog] = useAtom(addDialogPartAtom)
-  const [user] = useAtom(userAtom)
   const [, setInputText] = useAtom(getSetInputTextAtom)
   const [, setIsInputLoading] = useAtom(getSetIsInputLoadingAtom)
 
@@ -127,53 +125,6 @@ export default function useRecorder() {
           const { text } = json
           setIsInputLoading(false)
           setInputText(text)
-          // addDialog({
-          //   speaker: SpeakerType.USER,
-          //   text
-          // })
-          // if (user?.id && text) {
-          //   const res = await fetch(` /api/talk?speaker=user`, {
-          //     headers: {
-          //       'Content-Type': 'application/json'
-          //     },
-          //     method: 'POST',
-          //     body: JSON.stringify({
-          //       text
-          //     })
-          //   })
-          // console.log('👉 ~ response:', response)
-          // const dbRecord = await fetch('/api/insert-dialog', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json'
-          //   },
-          //   body: JSON.stringify({
-          //     text,
-          //     user: user?.id,
-          //     speaker: SpeakerType.USER
-          //   })
-          // })
-          // if (!res.ok) throw new Error('Talk Error')
-          // const newDialogPart = await res.json()
-
-          // if (newDialogPart.is_question) {
-          //   const answer = await fetch(` /api/ask`, {
-          //     headers: {
-          //       'Content-Type': 'application/json'
-          //     },
-          //     method: 'POST',
-          //     body: JSON.stringify({
-          //       question: newDialogPart.text,
-          //       embedding: newDialogPart.embedding
-          //     })
-          //   })
-          //   const answerJson = await answer.json()
-          //   addDialog({
-          //     speaker: SpeakerType.AI,
-          //     text: answerJson.answer
-          //   })
-          // }
-          // }
         } catch (error) {
           toast.error('Something went wrong')
         }
@@ -194,13 +145,7 @@ export default function useRecorder() {
           .getAudioTracks()
           .forEach((track: AudioTrack) => track.stop())
     }
-  }, [
-    recorderState.mediaRecorder,
-    addDialog,
-    user?.id,
-    setInputText,
-    setIsInputLoading
-  ])
+  }, [recorderState.mediaRecorder, addDialog, setInputText, setIsInputLoading])
 
   return {
     recorderState,

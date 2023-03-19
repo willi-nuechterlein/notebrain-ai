@@ -9,13 +9,13 @@ export const IconButton = styled('button', {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '$secondary9',
+  color: '$secondary10  ',
   position: 'absolute',
   top: 10,
   right: 10,
   cursor: 'pointer',
-  backgroundColor: '$background',
+  backgroundColor: '$secondary12',
 
-  '&:hover': { backgroundColor: '$gray7' },
-  '&:focus': { boxShadow: `0 0 2px $secondary7` }
+  '&:hover': { backgroundColor: '$primary7', color: '$white' },
+  '&:focus': { boxShadow: `0 0 2px $primary7` }
 })

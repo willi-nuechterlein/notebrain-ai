@@ -1,11 +1,20 @@
-import useSWR from 'swr'
+import useSWR, { mutate } from 'swr'
 import { styled } from 'stitches.config'
-import { getSetDialogAtom, SpeakerType } from 'lib/jotai/text'
+import { useAtom } from 'jotai'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useEffect, useState } from 'react'
+import { TrashIcon } from '@radix-ui/react-icons'
+import { toast } from 'react-hot-toast'
+
+import {
+  getSetAnswerTextAtom,
+  getSetDialogAtom,
+  getSetSourcesAtom,
+  SpeakerType
+} from 'lib/jotai/text'
 import { Box } from 'components/atoms/Box'
 import Button from 'components/atoms/Button'
 import { Typography } from 'components/atoms/Typography'
-import { useAtom } from 'jotai'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const ChatContainer = styled('div', {
   display: 'flex',
@@ -22,7 +31,7 @@ const ChatContainer = styled('div', {
   },
   '-ms-overflow-style': 'none',
   scrollbarWidth: 'none',
-  marginTop: '$5'
+  marginTop: '$9'
 })
 
 const ChatMessageContainer = styled('div', {
@@ -41,18 +50,58 @@ const ChatMessageContainer = styled('div', {
 
 const ChatMessageText = styled('div', {})
 
+const DeleteButton = styled('button', {
+  display: 'none',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'absolute',
+  top: '$2',
+  right: '$4',
+  backgroundColor: '$gray4',
+  border: '1px solid $gray2',
+  cursor: 'pointer',
+  padding: '$1',
+  color: '$error',
+  borderRadius: '$smallRadius',
+  '&:focus': {
+    outline: 'none'
+  },
+  '&:hover': {
+    backgroundColor: '$gray1',
+    borderColor: '$error'
+  }
+})
+
 export const Chat: React.FC = () => {
   const [parent] = useAutoAnimate()
   const [dialog, setDialog] = useAtom(getSetDialogAtom)
+  const [answer, setAnswer] = useAtom(getSetAnswerTextAtom)
+  const [sources] = useAtom(getSetSourcesAtom)
+  const [selectedNote, setSelectedNote] = useState<string>()
   const { data } = useSWR(`/api/get-dialog`)
-  if (data) {
-    console.log('👉 ~ data:', data)
+  useEffect(() => {
+    setSelectedNote(undefined)
+    if (data?.length > 1 && dialog.length > 0 && !sources.length) {
+      setDialog(data)
+    }
+  }, [data, dialog.length, setDialog, sources.length])
+  const deleteNote = async () => {
+    const res = await fetch('/api/delete', {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        id: selectedNote
+      })
+    })
+    if (res.ok) {
+      mutate('/api/get-dialog')
+      toast.success('Note deleted.')
+    } else {
+      toast.error('Ups. Please try again.')
+    }
   }
-  // useEffect(() => {
-  //   if (data) {
-  //     setDialog(data)
-  //   }
-  // }, [data, setDialog])
   return (
     <>
       {data?.length > 1 && (
@@ -65,44 +114,97 @@ export const Chat: React.FC = () => {
             alignItems: 'center'
           }}
         >
-          <Typography
-            as="span"
+          <Button
+            size="small"
+            color="secondary"
+            outlined
             css={{
               fontSize: '$4',
-              color: '$secondary2'
+              color: '$secondary10',
+              borderColor: '$secondary10'
+            }}
+            onClick={() => {
+              if (dialog.length) {
+                setDialog([])
+                return
+              }
+              setDialog(data)
             }}
           >
-            You have {data?.length || 0} notes
-          </Typography>
-          {dialog.length <= 1 ? (
-            <Button
-              size="small"
-              color="secondary"
-              outlined
-              onClick={() => {
-                setDialog(data)
-              }}
-            >
-              show
-            </Button>
-          ) : (
-            <Button
-              size="small"
-              color="secondary"
-              outlined
-              onClick={() => {
-                setDialog([])
-              }}
-            >
-              hide
-            </Button>
-          )}
+            {dialog.length ? 'hide notes' : `show notes (${data?.length})`}
+          </Button>
         </Box>
       )}
+
       <ChatContainer ref={parent}>
-        {dialog.map((message) => (
+        {answer ? (
+          <>
+            <ChatMessageContainer
+              onMouseLeave={() => {
+                setSelectedNote(undefined)
+              }}
+              css={{
+                position: 'relative',
+                alignSelf: 'flex-start',
+                color: '$primary10',
+                backgroundColor: '$primary4',
+                borderColor: '$primary6',
+                padding: '$5',
+                fontWeight: 500,
+                boxShadow: '$tileShadow',
+                '&:hover': {
+                  '& .trash': {
+                    display: 'flex'
+                  }
+                }
+              }}
+            >
+              <ChatMessageText>
+                {answer.text}
+                <DeleteButton
+                  onClick={() => {
+                    setAnswer(undefined)
+                    setDialog([])
+                  }}
+                  className="trash"
+                  css={{
+                    borderColor: '$error'
+                  }}
+                >
+                  <TrashIcon />
+                </DeleteButton>
+              </ChatMessageText>
+            </ChatMessageContainer>
+            <Button
+              size="small"
+              color="secondary"
+              outlined
+              css={{
+                alignSelf: 'flex-end',
+                marginTop: '-$1',
+                color: '$secondary10',
+                borderColor: '$secondary10',
+                fontSize: '$4',
+                width: '8rem'
+              }}
+              onClick={() => {
+                if (dialog.length) {
+                  setDialog([])
+                  return
+                }
+                setDialog(sources)
+              }}
+            >
+              {dialog.length ? 'hide sources' : 'show sources'}
+            </Button>
+          </>
+        ) : null}
+        {dialog?.map((message) => (
           <Box key={message.created_at || message.text}>
             <ChatMessageContainer
+              onMouseLeave={() => {
+                setSelectedNote(undefined)
+              }}
               css={{
                 position: 'relative',
                 alignSelf: 'flex-start',
@@ -115,16 +217,44 @@ export const Chat: React.FC = () => {
                 borderColor:
                   message.speaker === SpeakerType.AI
                     ? '$primary6'
-                    : '$secondary6',
-                paddingBottom: message.speaker === SpeakerType.AI ? '$4' : '$7'
+                    : '$secondary12',
+                paddingBottom: message.speaker === SpeakerType.AI ? '$4' : '$7',
+                '&:hover': {
+                  '& .trash': {
+                    display: 'flex'
+                  }
+                }
               }}
             >
-              <ChatMessageText>{message.text}</ChatMessageText>
+              <ChatMessageText>
+                {message.text}
+                <DeleteButton
+                  onClick={() => {
+                    if (selectedNote === message.id) {
+                      deleteNote()
+                    }
+                    setSelectedNote(message.id)
+                  }}
+                  className="trash"
+                >
+                  {selectedNote === message.id && (
+                    <Typography
+                      css={{
+                        fontSize: '$4',
+                        marginLeft: '$1'
+                      }}
+                    >
+                      click to delete
+                    </Typography>
+                  )}
+                  <TrashIcon />
+                </DeleteButton>
+              </ChatMessageText>
               <Typography
                 css={{
                   position: 'absolute',
                   fontSize: '$3',
-                  color: '$secondary4',
+                  color: '$secondary10',
                   bottom: '$2',
                   right: '$3'
                 }}

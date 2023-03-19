@@ -12,15 +12,9 @@ export default async function handler(
     res.status(401).json('Unauthorized')
   }
   try {
-    const records = await xata.db.dialogues
-      .filter({ user_id: userId, is_question: false })
-      .sort('created_at', 'desc')
-      .getAll()
-    const removeEmbedding = records.map((record) => {
-      const { embedding, ...restRecord } = record
-      return restRecord
-    })
-    res.status(200).json(removeEmbedding)
+    const { id } = req.body
+    const record = await xata.db.dialogues.delete(id)
+    res.status(200).json(record)
   } catch (error: Error | any) {
     if (error.response) {
       console.log(error.response.status)

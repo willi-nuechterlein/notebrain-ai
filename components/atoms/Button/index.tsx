@@ -36,15 +36,15 @@ const Button = styled('button', {
         }
       },
       secondary: {
-        backgroundColor: '$secondary2',
-        borderColor: '$secondary2',
+        backgroundColor: '$secondary5',
+        borderColor: '$secondary5',
         color: '$secondary12',
         '&:hover': {
           backgroundColor: '$secondary3',
           borderColor: '$secondary3'
         },
         '&:focus': {
-          boxShadow: '0 0 0 2px $secondary7'
+          boxShadow: '0 0 0 2px $secondary2'
         }
       }
     },
@@ -60,7 +60,11 @@ const Button = styled('button', {
     plain: {
       true: {
         backgroundColor: 'transparent',
-        borderColor: 'transparent'
+        borderColor: 'transparent',
+
+        '&:hover': {
+          backgroundColor: '$gray3'
+        }
       }
     }
   },

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import React, { ForwardedRef, ReactNode } from 'react'
 
 import * as Dialog from '@radix-ui/react-dialog'
 import { Cross2Icon } from '@radix-ui/react-icons'
@@ -10,14 +10,14 @@ import Button from 'components/atoms/Button'
 const DialogTitle = styled(Dialog.Title, {
   margin: 0,
   fontWeight: 500,
-  color: '$secondary12',
-  fontSize: 17
+  color: '$text',
+  fontSize: '$7'
 })
 
 const DialogDescription = styled(Dialog.Description, {
-  margin: '10px 0 20px',
-  color: '$secondary4',
-  fontSize: 15,
+  margin: '$3 0 20px 0',
+  color: '$text',
+  fontSize: '$5',
   lineHeight: 1.5
 })
 
@@ -26,9 +26,9 @@ const contentShow = keyframes({
   '100%': { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }
 })
 export const StyledDialogContent = styled(Dialog.Content, {
-  zIndex: 3,
-  backgroundColor: '$gray3',
-  borderRadius: '$mainRadius',
+  zIndex: 9999,
+  backgroundColor: '$white',
+  borderRadius: '$mediumRadius',
   boxShadow:
     'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
   position: 'fixed',
@@ -42,36 +42,51 @@ export const StyledDialogContent = styled(Dialog.Content, {
   '&:focus': { outline: 'none' }
 })
 
-export const DialogContent = ({
-  children,
-  title,
-  description,
-  actions,
-  ...props
-}: {
-  children: ReactNode
-  actions?: ReactNode
-  title?: string
-  description?: string
-}) => {
-  return (
-    <StyledDialogContent {...props}>
-      {title && <DialogTitle>{title}</DialogTitle>}
-      {description && <DialogDescription>{description}</DialogDescription>}
-      {children}
-      <Box css={{ display: 'flex', marginTop: 25, justifyContent: 'flex-end' }}>
+// eslint-disable-next-line react/display-name
+export const DialogContent = React.forwardRef(
+  (
+    {
+      children,
+      title,
+      description,
+      actions,
+      ...props
+    }: {
+      children: ReactNode
+      actions?: ReactNode
+      title?: string
+      description?: string
+    },
+    forwardedRef: ForwardedRef<HTMLDivElement>
+  ) => {
+    return (
+      <StyledDialogContent {...props} ref={forwardedRef}>
+        {title && <DialogTitle>{title}</DialogTitle>}
+        {description && <DialogDescription>{description}</DialogDescription>}
+        {children}
+        <Box
+          css={{ display: 'flex', marginTop: 25, justifyContent: 'flex-end' }}
+        >
+          {actions}
+          <Dialog.Close asChild>
+            <Button
+              color="secondary"
+              outlined
+              size="small"
+              css={{
+                marginLeft: '$2'
+              }}
+            >
+              Close
+            </Button>
+          </Dialog.Close>
+        </Box>
         <Dialog.Close asChild>
-          <Button color="secondary" outlined size="small">
-            Cancel
-          </Button>
+          <IconButton aria-label="Close">
+            <Cross2Icon />
+          </IconButton>
         </Dialog.Close>
-        {actions}
-      </Box>
-      <Dialog.Close asChild>
-        <IconButton aria-label="Close">
-          <Cross2Icon />
-        </IconButton>
-      </Dialog.Close>
-    </StyledDialogContent>
-  )
-}
+      </StyledDialogContent>
+    )
+  }
+)

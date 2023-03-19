@@ -16,6 +16,14 @@ export async function startRecording(setRecorderState: SetRecorder) {
       }
     })
   } catch (err) {
+    console.log('👉 ~ err:', err)
+    setRecorderState((prevState) => {
+      return {
+        ...prevState,
+        initRecording: false,
+        mediaStream: null
+      }
+    })
     toast.error('Failed to start recording')
   }
 }

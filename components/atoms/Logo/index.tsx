@@ -10,7 +10,7 @@ const Logo = ({ size = 60 }: { size?: number }) => {
     //     marginTop: '1vh'
     //   }}
     // >
-    <Image src="/logo.svg" alt="logo" width={size} height={size} />
+    <Image src="/logo.png" alt="logo" width={size} height={size} />
     // </Box>
   )
 }
