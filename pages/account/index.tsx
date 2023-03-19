@@ -76,7 +76,8 @@ export default function Account() {
             {user?.publicMetadata?.subscription?.status || 'unsubscribed'}
           </>
         </Paragraph>
-        {!subscription.willRenew ? (
+        <Button size="small">Buy notebrain Pro (coming soon)</Button>
+        {/* {!subscription.willRenew ? (
           <DialogWrapper
             title="Unsubscribe"
             trigger={<Button outlined>cancel subscription</Button>}
@@ -98,7 +99,7 @@ export default function Account() {
           // <a href={checkoutUrl} className="lemonsqueezy-button">
           <Button>Buy notebrain Pro (coming soon)</Button>
           // </a>
-        )}
+        )} */}
       </Box>
     </>
   )
