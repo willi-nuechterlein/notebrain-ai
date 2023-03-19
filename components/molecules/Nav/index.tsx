@@ -100,7 +100,11 @@ const Nav = () => {
                 size="small"
                 plain
                 css={{
-                  color: '$secondary2'
+                  color: '$secondary2',
+                  backgroundColor: '$background',
+                  '&:hover': {
+                    backgroundColor: '$secondary12'
+                  }
                 }}
               >
                 App

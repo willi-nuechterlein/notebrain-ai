@@ -95,9 +95,9 @@ export default function Account() {
             }
           />
         ) : (
-          <a href={checkoutUrl} className="lemonsqueezy-button">
-            <Button>Buy notebrain Pro</Button>
-          </a>
+          // <a href={checkoutUrl} className="lemonsqueezy-button">
+          <Button>Buy notebrain Pro (coming soon)</Button>
+          // </a>
         )}
       </Box>
     </>
