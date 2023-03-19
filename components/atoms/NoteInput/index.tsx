@@ -264,12 +264,8 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
       <Box
         css={{
           position: 'absolute',
-          bottom: '20%',
-          right: '-45%',
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
+          bottom: '3.2rem',
+          right: '1rem'
         }}
       >
         <Button
@@ -282,7 +278,7 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
             height: '3rem',
             borderRadius: '50%'
           }}
-          disabled={isInputLoading}
+          disabled={isDemo || isInputLoading}
           onClick={() => {
             if (isListening) {
               setIsListening(false)

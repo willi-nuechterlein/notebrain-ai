@@ -1,4 +1,10 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useUser
+} from '@clerk/nextjs'
 import { Box } from 'components/atoms/Box'
 import Button from 'components/atoms/Button'
 import Logo from 'components/atoms/Logo'
@@ -7,6 +13,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const Nav = () => {
+  const { user } = useUser()
   const router = useRouter()
   const path = router.pathname
   const isApp = path === '/app'
@@ -37,7 +44,8 @@ const Nav = () => {
         <Box
           css={{
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           <Logo size={33} />
@@ -62,6 +70,20 @@ const Nav = () => {
               n
             </Typography>
           )}
+          <Box
+            css={{
+              marginLeft: '$2',
+              fontSize: '0.65rem',
+              fontWeight: 600,
+              color: '$primary8',
+              padding: '$1',
+              paddingX: '$2',
+              border: '1px solid $primary8',
+              borderRadius: '$smallRadius'
+            }}
+          >
+            beta
+          </Box>
         </Box>
 
         <Box
@@ -71,7 +93,7 @@ const Nav = () => {
             gap: '$3'
           }}
         >
-          {!isApp && (
+          {!isApp && user ? (
             <Link href={'/app'}>
               <Button
                 as="span"
@@ -84,7 +106,7 @@ const Nav = () => {
                 App
               </Button>
             </Link>
-          )}
+          ) : null}
 
           <SignedIn>
             <UserButton
@@ -101,12 +123,6 @@ const Nav = () => {
               </Button>
             </SignInButton>
           </SignedOut>
-
-          {/* <Link href={`#${FOURTH_SECTION}`}>
-        <Button as="span" size="small" outlined>
-        Login
-        </Button>
-      </Link> */}
         </Box>
       </Box>
     </Box>

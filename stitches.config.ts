@@ -70,7 +70,7 @@ export const {
       ...teal,
       white: '#fff',
       background: slate.slate1,
-      text: '$gray12',
+      text: slate.slate12,
       error: red.red9,
       success: green.green9
     },
