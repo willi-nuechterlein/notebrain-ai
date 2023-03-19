@@ -6,7 +6,12 @@ import { useEffect, useState } from 'react'
 import { TrashIcon } from '@radix-ui/react-icons'
 import { toast } from 'react-hot-toast'
 
-import { getSetDialogAtom, SpeakerType } from 'lib/jotai/text'
+import {
+  getSetAnswerTextAtom,
+  getSetDialogAtom,
+  getSetSourcesAtom,
+  SpeakerType
+} from 'lib/jotai/text'
 import { Box } from 'components/atoms/Box'
 import Button from 'components/atoms/Button'
 import { Typography } from 'components/atoms/Typography'
@@ -26,7 +31,7 @@ const ChatContainer = styled('div', {
   },
   '-ms-overflow-style': 'none',
   scrollbarWidth: 'none',
-  marginTop: '$5'
+  marginTop: '$9'
 })
 
 const ChatMessageContainer = styled('div', {
@@ -53,7 +58,7 @@ const DeleteButton = styled('button', {
   top: '$2',
   right: '$4',
   backgroundColor: '$gray4',
-  border: '1px solid $secondary6',
+  border: '1px solid $secondary11',
   cursor: 'pointer',
   padding: '$1',
   color: '$error',
@@ -70,13 +75,15 @@ const DeleteButton = styled('button', {
 export const Chat: React.FC = () => {
   const [parent] = useAutoAnimate()
   const [dialog, setDialog] = useAtom(getSetDialogAtom)
+  const [answer, setAnswer] = useAtom(getSetAnswerTextAtom)
+  const [sources] = useAtom(getSetSourcesAtom)
   const [selectedNote, setSelectedNote] = useState<string>()
   const { data } = useSWR(`/api/get-dialog`)
   useEffect(() => {
-    if (data?.length > 1 && dialog.length > 0) {
+    if (data?.length > 1 && dialog.length > 0 && !sources.length) {
       setDialog(data)
     }
-  })
+  }, [data, dialog.length, setDialog, sources.length])
   const deleteNote = async () => {
     const res = await fetch('/api/delete', {
       headers: {
@@ -110,39 +117,98 @@ export const Chat: React.FC = () => {
             as="span"
             css={{
               fontSize: '$4',
-              color: '$secondary2'
+              color: '$secondary11'
             }}
           >
             You have {data?.length || 0} notes
           </Typography>
-          {dialog.length <= 1 ? (
-            <Button
-              size="small"
-              color="secondary"
-              outlined
-              onClick={() => {
-                setDialog(data)
-              }}
-            >
-              show
-            </Button>
-          ) : (
-            <Button
-              size="small"
-              color="secondary"
-              outlined
-              onClick={() => {
+          <Button
+            size="small"
+            color="secondary"
+            outlined
+            css={{
+              fontSize: '$4',
+              color: '$secondary11',
+              borderColor: '$secondary11'
+            }}
+            onClick={() => {
+              if (dialog.length) {
                 setDialog([])
-              }}
-            >
-              hide
-            </Button>
-          )}
+                return
+              }
+              setDialog(data)
+            }}
+          >
+            {dialog.length ? 'hide ' : 'show'}
+          </Button>
         </Box>
       )}
 
       <ChatContainer ref={parent}>
-        {dialog.map((message) => (
+        {answer ? (
+          <>
+            <ChatMessageContainer
+              onMouseLeave={() => {
+                setSelectedNote(undefined)
+              }}
+              css={{
+                position: 'relative',
+                alignSelf: 'flex-start',
+                color: '$primary10',
+                backgroundColor: '$primary4',
+                borderColor: '$primary6',
+                padding: '$5',
+                fontWeight: 500,
+                boxShadow: '$tileShadow',
+                '&:hover': {
+                  '& .trash': {
+                    display: 'flex'
+                  }
+                }
+              }}
+            >
+              <ChatMessageText>
+                {answer.text}
+                <DeleteButton
+                  onClick={() => {
+                    setAnswer(undefined)
+                    setDialog([])
+                  }}
+                  className="trash"
+                  css={{
+                    backgroundColor: '$white',
+                    borderColor: '$error'
+                  }}
+                >
+                  <TrashIcon />
+                </DeleteButton>
+              </ChatMessageText>
+            </ChatMessageContainer>
+            <Button
+              size="small"
+              color="secondary"
+              outlined
+              css={{
+                alignSelf: 'flex-end',
+                marginTop: '-$1',
+                color: '$secondary11',
+                borderColor: '$secondary11',
+                fontSize: '$4',
+                width: '8rem'
+              }}
+              onClick={() => {
+                if (dialog.length) {
+                  setDialog([])
+                  return
+                }
+                setDialog(sources)
+              }}
+            >
+              {dialog.length ? 'hide sources' : 'show sources'}
+            </Button>
+          </>
+        ) : null}
+        {dialog?.map((message) => (
           <Box key={message.created_at || message.text}>
             <ChatMessageContainer
               onMouseLeave={() => {
@@ -160,7 +226,7 @@ export const Chat: React.FC = () => {
                 borderColor:
                   message.speaker === SpeakerType.AI
                     ? '$primary6'
-                    : '$secondary6',
+                    : '$secondary11',
                 paddingBottom: message.speaker === SpeakerType.AI ? '$4' : '$7',
                 '&:hover': {
                   '& .trash': {
@@ -197,7 +263,7 @@ export const Chat: React.FC = () => {
                 css={{
                   position: 'absolute',
                   fontSize: '$3',
-                  color: '$secondary4',
+                  color: '$secondary10',
                   bottom: '$2',
                   right: '$3'
                 }}

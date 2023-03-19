@@ -8,8 +8,8 @@ export enum SpeakerType {
 export interface DialogPart {
   speaker: SpeakerType
   text: string
+  id?: string
   created_at?: string
-  id: string
 }
 
 export const dialogAtom = atom<Array<DialogPart>>([])
@@ -41,5 +41,21 @@ export const getSetIsInputLoadingAtom = atom(
   (get) => get(isInputLoadingAtom),
   (_get, set, isLoading: boolean) => {
     set(isInputLoadingAtom, isLoading)
+  }
+)
+
+export const answerTextAtom = atom<DialogPart | undefined>(undefined)
+export const getSetAnswerTextAtom = atom(
+  (get) => get(answerTextAtom),
+  (_get, set, answer: DialogPart | undefined) => {
+    set(answerTextAtom, answer)
+  }
+)
+
+export const sourcesAtom = atom<Array<DialogPart>>([])
+export const getSetSourcesAtom = atom(
+  (get) => get(sourcesAtom),
+  (_get, set, sources: Array<DialogPart>) => {
+    set(sourcesAtom, sources)
   }
 )
