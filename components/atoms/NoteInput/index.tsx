@@ -1,7 +1,8 @@
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useAtom } from 'jotai'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { HiOutlineMicrophone } from 'react-icons/hi'
 
 import { Box } from 'components/atoms/Box'
 import Button from 'components/atoms/Button'
@@ -15,26 +16,29 @@ import {
   SpeakerType
 } from 'lib/jotai/text'
 import { toast } from 'react-hot-toast'
-import { MagnifyingGlassIcon, PaperPlaneIcon } from '@radix-ui/react-icons'
+import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons'
 import LoadingSpinner from 'components/atoms/LoadingSpinner'
 import { useSWRConfig } from 'swr'
 import userSubscriptionStatus from 'lib/utils/userSubscriptionStatus'
 import { useUser } from '@clerk/nextjs'
+import { UseRecorder } from 'lib/types/recorder'
+import useRecorder from 'lib/utils/audio/hooks/useRecorder'
+import { keyframes } from 'stitches.config'
 
-// const pulsate = keyframes({
-//   '0%': {
-//     transform: 'scale(1)',
-//     opacity: 1
-//   },
-//   '50%': {
-//     transform: 'scale(1.2)',
-//     opacity: 0.5
-//   },
-//   '100%': {
-//     transform: 'scale(1)',
-//     opacity: 1
-//   }
-// })
+const pulsate = keyframes({
+  '0%': {
+    transform: 'scale(1)',
+    opacity: 1
+  },
+  '50%': {
+    transform: 'scale(1.2)',
+    opacity: 0.5
+  },
+  '100%': {
+    transform: 'scale(1)',
+    opacity: 1
+  }
+})
 
 const talk = async (text: string, isQuestion?: boolean, limited = true) => {
   const res = await fetch(`/api/talk`, {
@@ -70,11 +74,10 @@ export type NoteInputProps = {
 export default function NoteInput({ isDemo }: NoteInputProps) {
   const { user } = useUser()
   const subscription = userSubscriptionStatus(user)
-  // const { recorderState, ...handlers }: UseRecorder = useRecorder()
+  const { recorderState, ...handlers }: UseRecorder = useRecorder()
 
-  // const { recordingSeconds } = recorderState
-  // const { startRecording, saveRecording } = handlers
-  // const [isListening, setIsListening] = useState<boolean>(false)
+  const { startRecording, saveRecording } = handlers
+  const [isListening, setIsListening] = useState<boolean>(false)
   const [, setAnswer] = useAtom(getSetAnswerTextAtom)
   const [, setSources] = useAtom(getSetSourcesAtom)
   const { mutate } = useSWRConfig()
@@ -196,7 +199,7 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
           textarea
           id="text"
           formik={formik}
-          placeholder={`Add a note... or find answers in your notes...`}
+          placeholder={`Add a note... or find information in your notes...`}
           css={{
             width: '100%',
             margin: 0,
@@ -205,8 +208,7 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
           cssInput={{
             borderRadius: '$mediumRadius $mediumRadius 0 0 ',
             borderWidth: '0',
-            padding: '$6',
-            paddingTop: '$10'
+            padding: '$6'
           }}
         />
         <Box
@@ -225,7 +227,7 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
             }}
             type="submit"
           >
-            <PaperPlaneIcon />
+            <PlusIcon />
             <Box
               as="span"
               css={{
@@ -259,31 +261,39 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
           </Button>
         </Box>
       </form>
-      {/* <Box
+      <Box
         css={{
           position: 'absolute',
-          top: '2%',
-          right: '-41%',
+          bottom: '20%',
+          right: '-45%',
           width: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
         }}
       >
-        {isListening ? (
-          <Button
-            size="small"
-            outlined
-            color="secondary"
-            css={{
-              width: '7rem'
-            }}
-            disabled={recordingSeconds === 0}
-            onClick={() => {
+        <Button
+          size="small"
+          outlined
+          color="secondary"
+          plain
+          css={{
+            width: '3rem',
+            height: '3rem',
+            borderRadius: '50%'
+          }}
+          disabled={isInputLoading}
+          onClick={() => {
+            if (isListening) {
               setIsListening(false)
               saveRecording()
-            }}
-          >
+            } else {
+              setIsListening(true)
+              startRecording()
+            }
+          }}
+        >
+          {isListening ? (
             <Box
               css={{
                 width: '15px',
@@ -293,52 +303,14 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
                 animationName: `${pulsate}`,
                 animationDuration: '1s',
                 animationIterationCount: 'infinite',
-                animationTimingFunction: 'ease-in-out',
-                marginRight: '$2'
+                animationTimingFunction: 'ease-in-out'
               }}
             />
-            Stop
-          </Button>
-        ) : (
-          <Button
-            size="small"
-            outlined
-            color="secondary"
-            css={{
-              width: '7rem'
-            }}
-            onClick={() => {
-              setIsListening(true)
-              startRecording()
-            }}
-          >
-            <CircleIcon />
-            <Box
-              as="span"
-              css={{
-                marginLeft: '$2'
-              }}
-            >
-              Record
-            </Box>
-          </Button>
-        )}
-      </Box> */}
-
-      {/* <Button
-        onClick={() => {
-          setDialog([])
-        }}
-        outlined
-        color="secondary"
-        size="small"
-        css={{
-          alignSelf: 'center',
-          marginTop: '$12'
-        }}
-      >
-        Clear Conversation
-      </Button> */}
+          ) : (
+            <HiOutlineMicrophone width={30} height={30} />
+          )}
+        </Button>
+      </Box>
     </Box>
   )
 }

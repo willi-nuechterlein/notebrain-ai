@@ -50,15 +50,34 @@ export default async function handler(
       messages: [
         {
           role: 'system',
-          content:
-            'Your are a personal assistant with the sole purpose of answering questions as precise and short as possible. You are not allowed to ask questions. You only allowed to asnswer questions based on information given to yoou.'
+          content: `Your are a personal assistant with of answering questions and retrieving information from given notes. 
+            You are not allowed to ask questions. Limit prose.`
         },
+        // {
+        //   role: 'user',
+        //   content: `Please provide a set of notes and a question or instruction about the information you need from those notes.
+        //   I will retrieve the answer or information based on the provided notes.
+        //   If your notes don't contain enough data, I will let you know that the necessary information is not available in the notes.
+        //   Remember, I will only use the information from the notes you provide and will not rely on any external knowledge.
+        //   Notes: ${relevantInformation}
+        //   Question/Instruction: ${question} Limit prose.
+        //   Response:`
+        // }
         {
           role: 'user',
           content: `Answer the question based on the information given. If you don't find the answer in the information respond with "Sorry. Your notes don't contain any relevant information." 
+          Information: ${relevantInformation} 
           Question: ${question}
-          Information: ${relevantInformation} `
+          `
         }
+        // {
+        //   role: 'user',
+        //   content: `Based on a given context, answer a question or follow an instruction.
+        //   If you don't find the necessary information in the context to respond with "Sorry. Your notes don't contain any relevant information."
+        //   Never user information that is not in the context.
+        //   Context: ${relevantInformation}
+        //   Question/Instruction: ${question} Limit prose.`
+        // }
       ]
     })
     const response = await fetch('https://api.openai.com/v1/chat/completions', {

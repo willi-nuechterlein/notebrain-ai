@@ -16,7 +16,11 @@ export default async function handler(
       .filter({ user_id: userId, is_question: false })
       .sort('created_at', 'desc')
       .getAll()
-    res.status(200).json(records)
+    const removeEmbedding = records.map((record) => {
+      const { embedding, ...restRecord } = record
+      return restRecord
+    })
+    res.status(200).json(removeEmbedding)
   } catch (error: Error | any) {
     if (error.response) {
       console.log(error.response.status)
