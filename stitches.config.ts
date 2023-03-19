@@ -126,7 +126,7 @@ export const {
     shadows: {
       tileShadow:
         '0px 0px 20px 0 rgba(0,0,0,0.02),0px 2px 10px 0 rgba(0,0,0,0.05)',
-      noteShadow: '0 0 5px 0 rgba(0,0,0,0.04)',
+      noteShadow: '0 1px 2px 1px rgba(0,0,0,0.04)',
       sectionShadow:
         '0px -10px 20px 0 rgba(0,0,0,0.02),0px -2px 20px 0 rgba(0,0,0,0.05),0px 10px 20px 0 rgba(0,0,0,0.02),0px 2px 20px 0 rgba(0,0,0,0.05)',
       sectionShadowBottom:

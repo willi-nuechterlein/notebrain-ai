@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import React, { ForwardedRef, ReactNode } from 'react'
 
 import * as Dialog from '@radix-ui/react-dialog'
 import { Cross2Icon } from '@radix-ui/react-icons'
@@ -42,43 +42,51 @@ export const StyledDialogContent = styled(Dialog.Content, {
   '&:focus': { outline: 'none' }
 })
 
-export const DialogContent = ({
-  children,
-  title,
-  description,
-  actions,
-  ...props
-}: {
-  children: ReactNode
-  actions?: ReactNode
-  title?: string
-  description?: string
-}) => {
-  return (
-    <StyledDialogContent {...props}>
-      {title && <DialogTitle>{title}</DialogTitle>}
-      {description && <DialogDescription>{description}</DialogDescription>}
-      {children}
-      <Box css={{ display: 'flex', marginTop: 25, justifyContent: 'flex-end' }}>
-        {actions}
+// eslint-disable-next-line react/display-name
+export const DialogContent = React.forwardRef(
+  (
+    {
+      children,
+      title,
+      description,
+      actions,
+      ...props
+    }: {
+      children: ReactNode
+      actions?: ReactNode
+      title?: string
+      description?: string
+    },
+    forwardedRef: ForwardedRef<HTMLDivElement>
+  ) => {
+    return (
+      <StyledDialogContent {...props} ref={forwardedRef}>
+        {title && <DialogTitle>{title}</DialogTitle>}
+        {description && <DialogDescription>{description}</DialogDescription>}
+        {children}
+        <Box
+          css={{ display: 'flex', marginTop: 25, justifyContent: 'flex-end' }}
+        >
+          {actions}
+          <Dialog.Close asChild>
+            <Button
+              color="secondary"
+              outlined
+              size="small"
+              css={{
+                marginLeft: '$2'
+              }}
+            >
+              Close
+            </Button>
+          </Dialog.Close>
+        </Box>
         <Dialog.Close asChild>
-          <Button
-            color="secondary"
-            outlined
-            size="small"
-            css={{
-              marginLeft: '$2'
-            }}
-          >
-            Cancel
-          </Button>
+          <IconButton aria-label="Close">
+            <Cross2Icon />
+          </IconButton>
         </Dialog.Close>
-      </Box>
-      <Dialog.Close asChild>
-        <IconButton aria-label="Close">
-          <Cross2Icon />
-        </IconButton>
-      </Dialog.Close>
-    </StyledDialogContent>
-  )
-}
+      </StyledDialogContent>
+    )
+  }
+)

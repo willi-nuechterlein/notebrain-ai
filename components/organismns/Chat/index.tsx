@@ -58,7 +58,7 @@ const DeleteButton = styled('button', {
   top: '$2',
   right: '$4',
   backgroundColor: '$gray4',
-  border: '1px solid $secondary11',
+  border: '1px solid $gray2',
   cursor: 'pointer',
   padding: '$1',
   color: '$error',
@@ -67,7 +67,7 @@ const DeleteButton = styled('button', {
     outline: 'none'
   },
   '&:hover': {
-    backgroundColor: '$gray5',
+    backgroundColor: '$gray1',
     borderColor: '$error'
   }
 })
@@ -80,6 +80,7 @@ export const Chat: React.FC = () => {
   const [selectedNote, setSelectedNote] = useState<string>()
   const { data } = useSWR(`/api/get-dialog`)
   useEffect(() => {
+    setSelectedNote(undefined)
     if (data?.length > 1 && dialog.length > 0 && !sources.length) {
       setDialog(data)
     }
@@ -113,23 +114,14 @@ export const Chat: React.FC = () => {
             alignItems: 'center'
           }}
         >
-          <Typography
-            as="span"
-            css={{
-              fontSize: '$4',
-              color: '$secondary11'
-            }}
-          >
-            You have {data?.length || 0} notes
-          </Typography>
           <Button
             size="small"
             color="secondary"
             outlined
             css={{
               fontSize: '$4',
-              color: '$secondary11',
-              borderColor: '$secondary11'
+              color: '$secondary10',
+              borderColor: '$secondary10'
             }}
             onClick={() => {
               if (dialog.length) {
@@ -139,7 +131,7 @@ export const Chat: React.FC = () => {
               setDialog(data)
             }}
           >
-            {dialog.length ? 'hide ' : 'show'}
+            {dialog.length ? 'hide notes' : `show notes (${data?.length})`}
           </Button>
         </Box>
       )}
@@ -176,7 +168,6 @@ export const Chat: React.FC = () => {
                   }}
                   className="trash"
                   css={{
-                    backgroundColor: '$white',
                     borderColor: '$error'
                   }}
                 >
@@ -191,8 +182,8 @@ export const Chat: React.FC = () => {
               css={{
                 alignSelf: 'flex-end',
                 marginTop: '-$1',
-                color: '$secondary11',
-                borderColor: '$secondary11',
+                color: '$secondary10',
+                borderColor: '$secondary10',
                 fontSize: '$4',
                 width: '8rem'
               }}
@@ -226,7 +217,7 @@ export const Chat: React.FC = () => {
                 borderColor:
                   message.speaker === SpeakerType.AI
                     ? '$primary6'
-                    : '$secondary11',
+                    : '$secondary12',
                 paddingBottom: message.speaker === SpeakerType.AI ? '$4' : '$7',
                 '&:hover': {
                   '& .trash': {

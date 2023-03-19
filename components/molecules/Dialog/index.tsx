@@ -21,11 +21,10 @@ const DialogWrapper = ({
   trigger,
   actions,
   title,
-  description,
-  open
+  description
 }: DialogProps) => {
   return (
-    <Dialog.Root modal open={open}>
+    <Dialog.Root modal>
       <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
       <DialogPortal>
         <DialogOverlay />

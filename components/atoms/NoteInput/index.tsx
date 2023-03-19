@@ -135,6 +135,7 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
         }
         const answerJson = await answer.json()
         setAnswer({
+          id: answerJson.id,
           speaker: SpeakerType.AI,
           text: answerJson.answer
         })
@@ -142,7 +143,8 @@ export default function NoteInput({ isDemo }: NoteInputProps) {
           answerJson.records.map((r: any) => ({
             speaker: SpeakerType.USER,
             text: r.text,
-            created_at: r.created_at
+            created_at: r.created_at,
+            id: r.id
           }))
         )
       } catch (error) {

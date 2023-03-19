@@ -1,6 +1,6 @@
 import { useUser } from '@clerk/nextjs'
 import Script from 'next/script'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import useSWRMutation from 'swr/mutation'
 
 import { Box } from 'components/atoms/Box'
@@ -10,9 +10,9 @@ import { Title } from 'components/atoms/Title'
 import userSubscriptionStatus from 'lib/utils/userSubscriptionStatus'
 import DialogWrapper from 'components/molecules/Dialog'
 import { toast } from 'react-hot-toast'
+import * as Dialog from '@radix-ui/react-dialog'
 
 export default function Account() {
-  const [open, setOpen] = useState(false)
   const { user, isLoaded } = useUser()
   const subscription = userSubscriptionStatus(user)
   const { data: checkoutUrl, trigger } = useSWRMutation(
@@ -62,7 +62,7 @@ export default function Account() {
           flexDirection: 'column',
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
-          paddingX: '$2',
+          marginX: '$2',
           paddingTop: '10vh',
           gap: '$4'
         }}
@@ -76,26 +76,22 @@ export default function Account() {
             {user?.publicMetadata?.subscription?.status || 'unsubscribed'}
           </>
         </Paragraph>
-        {subscription.active ? (
+        {!subscription.willRenew ? (
           <DialogWrapper
-            open={open}
             title="Unsubscribe"
-            trigger={
-              <Button onClick={() => setOpen(true)} outlined>
-                cancel subscription
-              </Button>
-            }
+            trigger={<Button outlined>cancel subscription</Button>}
             description=" You will lose access to notebrain's premium features."
             actions={
-              <Button
-                onClick={() => {
-                  unsubscribe()
-                  setOpen(false)
-                }}
-                color="primary"
-              >
-                Unsubscribe
-              </Button>
+              <Dialog.Close asChild>
+                <Button
+                  onClick={() => {
+                    unsubscribe()
+                  }}
+                  color="primary"
+                >
+                  Unsubscribe
+                </Button>
+              </Dialog.Close>
             }
           />
         ) : (

@@ -9,12 +9,12 @@ export const IconButton = styled('button', {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '$primary8',
+  color: '$secondary10  ',
   position: 'absolute',
   top: 10,
   right: 10,
   cursor: 'pointer',
-  backgroundColor: '$secondary10',
+  backgroundColor: '$secondary12',
 
   '&:hover': { backgroundColor: '$primary7', color: '$white' },
   '&:focus': { boxShadow: `0 0 2px $primary7` }
