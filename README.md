@@ -29,4 +29,10 @@ A smart notetaking and note retrieval app that allows users to insert notes usin
 
 [notebrain.ai](https://www.notebrain.ai/)
 
+Adding note:
 
+https://user-images.githubusercontent.com/13342175/235457603-0e2f9eab-36f8-4331-beaf-f94b1dc52a6d.mp4
+
+Retrieving information:
+
+https://user-images.githubusercontent.com/13342175/235457747-35078d89-c83a-4c45-8d91-2cc128d932ea.mp4
